@@ -21,12 +21,18 @@
     <ClCompile Include="source\GodFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\GLprimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GodFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\OpenGL_Tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLprimitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
