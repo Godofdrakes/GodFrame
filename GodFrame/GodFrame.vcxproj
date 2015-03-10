@@ -76,10 +76,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="source\GLprimitive.cpp" />
+    <ClCompile Include="source\GLpoint.cpp" />
     <ClCompile Include="source\GodFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\GLpoint.h" />
     <ClInclude Include="include\GLprimitive.h" />
     <ClInclude Include="include\GodFrame.h" />
     <ClInclude Include="include\OpenGL_Tools.h" />

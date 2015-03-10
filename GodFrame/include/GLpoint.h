@@ -5,12 +5,22 @@
 #include "OpenGL_Tools.h"
 #include "GLprimitive.h"
 
-class GLpoint {
+/* THOUGHTS FORM LAST TIME:
+	What steps must be taken to make a point?
+	What should a point ( or any GLprimitive ) be able to do?
+	How can we better hide the OpenGL side of things from the user?
+	Finish Draw function.
+*/
+
+class GLpoint : public GLprimitive {
 
 private:
+	Vertex vert;
+	glm::vec2 data_vertex;
 
 public:
-	BASE_GL_PRIMITIVE
+
+	DERIVED_GL_PRIMITIVE
 
 };
 
