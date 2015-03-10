@@ -2,6 +2,7 @@
 #define _GODFRAME_H_
 
 #include <assert.h>
+#include <string>
 #include "OpenGL_Tools.h" // GLEW, GLFW, GLM
 #include <RapidXML\rapidxml.hpp>
 
@@ -69,63 +70,51 @@ class GameEngine
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && description ); }
 
-class Window {
+class GameEngine {
 
 private:
 	GLFWwindow * windowPointer;
-	const unsigned int width, height;
-	const char* name;
+	unsigned int width, height;
+	std::string name;
 
 public:
+	double deltaTime;
 
-	Window( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) : name(windowName), width(windowWidth), height(windowHeight) {
-		assert( name && "Window::Window - Invalid windowName" );
-		assert( width > 0 && "Window::Window - width <= 0" );
-		assert( height > 0 && "Window::Window - hieght <=0" );
+	GameEngine( void ) {
+		int glfwInitError = glfwInit( );
+		assert( glfwInitError == GL_TRUE && "GameEngine::StartUp - glfwInit returned GL_FALSE" );
 
-		windowPointer = glfwCreateWindow( width, height, name, NULL, NULL );
-		assert( windowPointer != NULL && "Window::Window - GLFW returned NULL pointer for windowPointer" );
+		glfwSetErrorCallback( error_callback );
+		windowPointer = NULL;
+	}
+
+	void NewWindow( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
+		assert( windowPointer == NULL && "GameEngine::NewWindow - windowPointer already exists" );
+		assert( windowName && "GameEngine::NewWindow - Invalid windowName" );
+		assert( windowWidth > 0 && "GameEngine::NewWindow - width <= 0" );
+		assert( windowHeight > 0 && "GameEngine::NewWindow - hieght <=0" );
+
+		name = std::string( windowName );
+		width = windowWidth;
+		height = windowHeight;
+
+		windowPointer = glfwCreateWindow( width, height, name.c_str(), NULL, NULL );
+		assert( windowPointer != NULL && "GameEngine::NewWindow - GLFW returned NULL pointer for windowPointer" );
 
 		glfwMakeContextCurrent( windowPointer );
 		glfwSwapInterval( 1 );
-	}
 
-	void MakeActive( ) {
-		glfwMakeContextCurrent( windowPointer );
-	}
-
-	bool ShouldClose( ) {
-		return glfwWindowShouldClose( windowPointer );
 	}
 
 	void EndWindow( ) {
-		assert( windowPointer != NULL && "Window::EndWindow - windowPointer is NULL" );
+		assert( windowPointer != NULL && "GameEngine::EndWindow - windowPointer is NULL" );
 		return glfwSetWindowShouldClose( windowPointer, GL_FALSE );
 	}
 
 	void CloseWindow( ) {
-		assert( windowPointer != NULL && "Window::CloseWindow - windowPointer is NULL" );
+		assert( windowPointer != NULL && "GameEngine::CloseWindow - windowPointer is NULL" );
 		glfwDestroyWindow( windowPointer );
-	}
-
-	bool Update( ) {
-		assert( windowPointer != NULL && "Window::Update - windowPointer is NULL" );
-		if( glfwWindowShouldClose( windowPointer ) ) { return false; }
-		glfwSwapBuffers( windowPointer );
-		return true;
-	}
-};
-
-class GameEngine {
-
-private:
-
-public:
-	GameEngine( void ) {
-		bool glfwInitError = glfwInit( );
-		assert( glfwInitError == GL_TRUE && "Framework::StartUp - glfwInit returned GL_FALSE" );
-
-		glfwSetErrorCallback( error_callback );
+		windowPointer = NULL;
 	}
 
 	// Make this the destructor?
@@ -137,8 +126,18 @@ public:
 		return glfwGetTime( );
 	}
 
-	void Update( ) {
+	bool Update( ) {
+		assert( windowPointer != NULL && "GameEngine::Update - windowPointer is NULL" );
+
+		if( glfwWindowShouldClose( windowPointer ) ) { return false; }
+
+		glfwSwapBuffers( windowPointer );
 		glfwPollEvents( );
+
+		deltaTime = glfwGetTime( );
+		glfwSetTime( 0 );
+
+		return true;
 	}
 
 };
