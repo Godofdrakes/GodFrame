@@ -90,24 +90,23 @@ public:
 		glfwSwapInterval( 1 );
 	}
 
-	~Window( void ) {
-		assert( windowPointer != NULL && "Window::CleanupWindow - windowPointer is NULL" );
-		glfwDestroyWindow( windowPointer );
-	}
-
 	void MakeActive( ) {
 		glfwMakeContextCurrent( windowPointer );
 	}
 
-	void CloseWindow( ) {
-		assert( windowPointer != NULL && "Window::CloseWindow - windowPointer is NULL" );
+	bool ShouldClose( ) {
+		return glfwWindowShouldClose( windowPointer );
+	}
+
+	void EndWindow( ) {
+		assert( windowPointer != NULL && "Window::EndWindow - windowPointer is NULL" );
 		return glfwSetWindowShouldClose( windowPointer, GL_FALSE );
 	}
 
-	/*void CleanupWindow( ) {
-		assert( windowPointer != NULL && "Window::CleanupWindow - windowPointer is NULL" );
+	void CloseWindow( ) {
+		assert( windowPointer != NULL && "Window::CloseWindow - windowPointer is NULL" );
 		glfwDestroyWindow( windowPointer );
-	}*/
+	}
 
 	bool Update( ) {
 		assert( windowPointer != NULL && "Window::Update - windowPointer is NULL" );
@@ -130,7 +129,7 @@ public:
 	}
 
 	// Make this the destructor?
-	~GameEngine( void ) {
+	void ShutDown( void ) {
 		glfwTerminate( );
 	}
 
