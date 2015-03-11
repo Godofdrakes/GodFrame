@@ -80,15 +80,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\InputManager.cpp" />
     <ClCompile Include="source\GLLine.cpp" />
+    <ClCompile Include="source\GLObjectManager.cpp" />
     <ClCompile Include="source\GLPoint.cpp" />
     <ClCompile Include="source\GLQuad.cpp" />
     <ClCompile Include="source\GLTri.cpp" />
     <ClCompile Include="source\GodFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\GLLine.h" />
     <ClInclude Include="include\GLPoint.h" />
+    <ClInclude Include="include\InputManager.h" />
+    <ClInclude Include="include\GLLine.h" />
+    <ClInclude Include="include\GLObjectManager.h" />
     <ClInclude Include="include\GLPrimitive.h" />
     <ClInclude Include="include\GLQuad.h" />
     <ClInclude Include="include\GLTri.h" />

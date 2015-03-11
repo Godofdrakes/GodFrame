@@ -5,20 +5,15 @@
 
 /* GLPrimitive base/derived planning
 
+Set w set h functions?
+makes line easy to use and can be used by others
+
 GLPrimitive
 	Render() = 0; // The code that actualls calls the GL functions to draw.
 	Rotate( float radians ) = 0; // Updates the rotation matrix
 	Scale( float scale_x, float scale_y ) = 0; // Updates the scale matrix
 	Move( float move_X, float move_y ) = 0; // Updates the move matrix
 	Color( float color_r, float color_g, float color_b, float color_a ) = 0; // Updates the color vector
-
-
-GLPoint
-	Render();
-	Rotate( float radians ); // Doesn't actually do anything. Why would you rotate a point?
-	Scale( float scale_x, float scale_y ); // Doesn't actually do anything. Why would you scale a point?
-	Move( float move_X, float move_y );
-	Color( float color_r, float color_g, float color_b, float color_a );
 
 
 GLLine
@@ -61,7 +56,7 @@ struct Vertex {
 // Use BASE_GL_PRIMITIVE for the base class and DERIVED_GL_PRIMITIVE for derived classes. DO NOT USE THE INTERFACE DIRECTLY
 #define INTERFACE_GL_PRIMITIVE(terminal) \
 public:\
-	virtual void Render( void ) ##terminal\
+	virtual void Render( GLuint & shader ) ##terminal\
 	virtual void Rotate( float radians ) ##terminal\
 	virtual void Scale( float scale_x, float scale_y ) ##terminal\
 	virtual void Move( float move_X, float move_y ) ##terminal\
@@ -71,10 +66,17 @@ public:\
 #define BASE_GL_PRIMITIVE		INTERFACE_GL_PRIMITIVE(=0;)
 #define DERIVED_GL_PRIMITIVE	INTERFACE_GL_PRIMITIVE(;)
 
+
+enum GL_PRIMITIVE {
+	GLPOINT,
+	GLLINE,
+	GLTRI,
+	GLQUAD, // Actually just 2 triangles, but whatever.
+};
+
 class GLPrimitive {
 
 protected:
-	glm::vec3 v3_scale, v3_position;
 	glm::vec4 v4_color;
 	glm::mat4 m4_scale, m4_rotate, m4_move, m4_mvp;
 
@@ -82,14 +84,6 @@ public:
 	GLuint shader_Program, shader_Vertex, shader_Fragment;
 	GLuint vao, vbo, ebo;
 	GLint shaderDataAttrib_Position;
-	//GLchar * feedBack[1024];
-
-	enum GL_PRIMITIVE {
-		GLPOINT,
-		GLLINE,
-		GLTRI,
-		GLQUAD, // Actually just 2 triangles, but whatever.
-	};
 
 	GL_PRIMITIVE glPrim;
 

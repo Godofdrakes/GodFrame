@@ -3,11 +3,10 @@
 
 #include <string>
 #include <vector>
-#include "OpenGL_Tools.h" // GLEW, GLFW, GLM
+#include "OpenGL_Tools.h" // GLEW and GLFW
+#include "GLM_Tools.h" // GLM
 
-#include "GLPrimitive.h"
-#include "GLPoint.h"
-#include "GLTri.h"
+#include "GLObjectManager.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && description ); }
@@ -22,13 +21,16 @@ private:
 	GLFWwindow * windowPointer; // Pointer to the window
 	std::string name; // Name of the window
 
-public:
-
-	GameEngine( void );
-
-	bool Update( void ); // Polls input, clears window, and other stuff that needs to be done every tick in the background.
+	RenderObjectManager renderObjectmanager;
 
 	void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
+
+public:
+	glm::mat4 m4_projection;
+
+	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );
+
+	bool Window_Update( void ); // Polls input, clears window, and other stuff that needs to be done every tick in the background.
 	void Window_Stop( void );
 	void Window_Close( void );
 
@@ -40,6 +42,8 @@ public:
 	void Engine_Close( void ); // Shuts down EVERYTHING
 	double Engine_GetTime( void );
 	void Engine_SetBackgroundColor( float r, float g, float b, float a );
+
+	RenderObject & MakeObject( GL_PRIMITIVE type );
 
 };
 

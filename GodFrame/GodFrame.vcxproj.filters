@@ -13,11 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\GLprimitive">
+    <Filter Include="Header Files\GLObjects">
       <UniqueIdentifier>{bffa9605-4783-4516-8a15-1219ba369d18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GLprimitive">
+    <Filter Include="Source Files\GLObjects">
       <UniqueIdentifier>{1e08b965-a0b7-4c4c-8117-9f98209ce49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLObjects\GLPrimitive Derived">
+      <UniqueIdentifier>{3ea70d00-8ab6-4d82-acf4-cdd77d24ec49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLObjects\GLPrimitive Derived">
+      <UniqueIdentifier>{f67e0c32-5179-4679-928b-360b85e53478}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,17 +33,23 @@
     <ClCompile Include="source\GodFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLLine.cpp">
-      <Filter>Source Files\GLprimitive</Filter>
+    <ClCompile Include="source\GLObjectManager.cpp">
+      <Filter>Source Files\GLObjects</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLPoint.cpp">
-      <Filter>Source Files\GLprimitive</Filter>
+    <ClCompile Include="source\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLLine.cpp">
+      <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
     <ClCompile Include="source\GLQuad.cpp">
-      <Filter>Source Files\GLprimitive</Filter>
+      <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
     <ClCompile Include="source\GLTri.cpp">
-      <Filter>Source Files\GLprimitive</Filter>
+      <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLPoint.cpp">
+      <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,19 +60,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GLPrimitive.h">
-      <Filter>Header Files\GLprimitive</Filter>
+      <Filter>Header Files\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjectManager.h">
+      <Filter>Header Files\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GLLine.h">
-      <Filter>Header Files\GLprimitive</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GLPoint.h">
-      <Filter>Header Files\GLprimitive</Filter>
+      <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
     <ClInclude Include="include\GLQuad.h">
-      <Filter>Header Files\GLprimitive</Filter>
+      <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
     <ClInclude Include="include\GLTri.h">
-      <Filter>Header Files\GLprimitive</Filter>
+      <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLPoint.h">
+      <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

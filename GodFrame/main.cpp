@@ -3,37 +3,6 @@
 
 #include "GodFrame.h"
 
-void LoadShader( const char * fileName, GLuint & shaderIndex, GLuint shaderType ) {
-
-	std::ifstream ifs( fileName, std::ios::in | std::ios::binary | std::ios::ate );
-
-	std::ifstream::pos_type fileSize = ifs.tellg( );
-	ifs.seekg( 0, std::ios::beg );
-
-	std::vector<char> bytes( fileSize );
-	ifs.read( &bytes[0], fileSize );
-
-	std::string sourceCode( bytes.begin( ), bytes.end( ) );
-
-	const GLchar* sourceChars = sourceCode.c_str( );
-
-	shaderIndex = glCreateShader( shaderType ); // What kind of shader is it?
-	glShaderSource( shaderIndex, 1, &sourceChars, NULL ); // Load the code for the shader
-	glCompileShader( shaderIndex ); // Build the shader from that code
-
-	// Error checking
-	GLint isCompiled = 0;
-	glGetShaderiv( shaderIndex, GL_COMPILE_STATUS, &isCompiled );
-
-#ifdef _DEBUG
-	char buffer[512];
-	glGetShaderInfoLog( shaderIndex, 512, NULL, buffer );
-	std::cout << buffer << std::endl;
-#endif
-
-	assert( isCompiled = GL_TRUE && "| LoadShader - Could not compile shader |" );
-}
-
 void LoadShaderProgramNOTEXTURE( GLPrimitive & glObject ) {
 	glObject.shader_Program = glCreateProgram( ); // Create the program
 	glAttachShader( glObject.shader_Program, glObject.shader_Vertex ); // Load the shaders to it.
@@ -65,24 +34,17 @@ void LoadShaderProgramNOTEXTURE( GLPrimitive & glObject ) {
 
 int main( void ) {
 
-	GameEngine Engine; // Inits the Engine
+	GameEngine Engine( "GodFrame" ); // Inits the Engine
 
-	GLTri point;
+	RenderObject point = ;
 
-	LoadShader( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", point.shader_Vertex, GL_VERTEX_SHADER );
-	LoadShader( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", point.shader_Fragment, GL_FRAGMENT_SHADER );
-	LoadShaderProgramNOTEXTURE( point );
-	glm::mat4 proj = glm::ortho( 0.f, (float)1024, (float)768, 0.f );
-
-	
-	point.Move( 100, 100 );
-	point.SetMVP( proj );
-
-	const double TIME_TICKRATE = ( 1.0 / 30.0 );
+	const double TIME_TICKRATE = ( 1.0 / 15 );
 	double time_old = Engine.Engine_GetTime( );
 	double time_lag = 0.0;
 
-	while( Engine.Update( ) ) {
+	float foo = 0.f;
+
+	while( Engine.Window_Update( ) ) {
 		double time_now = Engine.Engine_GetTime( );
 		double time_passed = time_now - time_old;
 		time_old = time_now;
@@ -91,11 +53,14 @@ int main( void ) {
 		while( time_lag >= TIME_TICKRATE ) {
 			// Do thinking stuff here
 
+			foo += 0.5;
+
 			// At the end
 			time_lag -= TIME_TICKRATE;
 		}
 
 		// Do drawing stuff here
+		point.SetMVP( Engine.m4_projection );
 		point.Render( );
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
