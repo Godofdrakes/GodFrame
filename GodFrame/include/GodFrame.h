@@ -2,7 +2,12 @@
 #define _GODFRAME_H_
 
 #include <string>
+#include <vector>
 #include "OpenGL_Tools.h" // GLEW, GLFW, GLM
+
+#include "GLPrimitive.h"
+#include "GLPoint.h"
+#include "GLTri.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && description ); }
@@ -10,7 +15,8 @@ static void error_callback( int error, const char* description ) { assert( 0 && 
 class GameEngine {
 
 private:
-	bool glfwInitError; // Did GLFW init properly?
+	bool error_glfw; // Did GLFW init properly?
+	GLenum error_glew; // Did GLEW init properly?
 	unsigned int width, height; // Size of the window
 	float color[4]; // Color of the window's background
 	GLFWwindow * windowPointer; // Pointer to the window

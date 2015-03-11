@@ -6,47 +6,52 @@
 /* GLPrimitive base/derived planning
 
 GLPrimitive
-	Render() = 0;
-	Rotate() = 0;
-	Scale() = 0;
-	Move() = 0;
-	Color() = 0;
+	Render() = 0; // The code that actualls calls the GL functions to draw.
+	Rotate( float radians ) = 0; // Updates the rotation matrix
+	Scale( float scale_x, float scale_y ) = 0; // Updates the scale matrix
+	Move( float move_X, float move_y ) = 0; // Updates the move matrix
+	Color( float color_r, float color_g, float color_b, float color_a ) = 0; // Updates the color vector
+
 
 GLPoint
 	Render();
-	Rotate(); // Doesn't actually do anything. Why would you rotate a point?
-	Scale(); // Doesn't actually do anything. Why would you scale a point?
-	Move();
-	Color();
+	Rotate( float radians ); // Doesn't actually do anything. Why would you rotate a point?
+	Scale( float scale_x, float scale_y ); // Doesn't actually do anything. Why would you scale a point?
+	Move( float move_X, float move_y );
+	Color( float color_r, float color_g, float color_b, float color_a );
 
-GLPoint
+
+GLLine
 	Render();
-	Rotate();
-	Scale(); // Will work, but not recomended. Will implement functions for changing the two ends.
-	Move();
-	Color();
+	Rotate( float radians );
+	Scale( float scale_x, float scale_y ); // Will work, but not recomended. Will implement functions for changing the two ends.
+	Move( float move_X, float move_y );
+	Color( float color_r, float color_g, float color_b, float color_a );
 
 	// Extra functions to make it easier to use
-	SetStart(); // Will move the first point in the line
-	SetEnd(); // Will move the last point in the line
+	SetStart( float start_x, float start_y ); // Will move the first point in the line
+	SetEnd( float end_x, float end_y ); // Will move the last point in the line
+
 
 GLTri
 	Render();
-	Rotate();
-	Scale();
-	Move();
-	Color();
+	Rotate( float radians );
+	Scale( float scale_x, float scale_y );
+	Move( float move_X, float move_y );
+	Color( float color_r, float color_g, float color_b, float color_a );
+
 
 GLQuad // It's actually just 2 GLTri. Don't tell anyone.
 	Render();
-	Rotate();
-	Scale();
-	Move();
-	Color();
+	Rotate( float radians );
+	Scale( float scale_x, float scale_y );
+	Move( float move_X, float move_y );
+	Color( float color_r, float color_g, float color_b, float color_a );
+
 */
 
 struct Vertex {
-	float position[2], UV[2];
+	float data[2];
 };
 
 // Interface macro for quick declaration of a large block of code.
@@ -55,26 +60,29 @@ struct Vertex {
 
 // Use BASE_GL_PRIMITIVE for the base class and DERIVED_GL_PRIMITIVE for derived classes. DO NOT USE THE INTERFACE DIRECTLY
 #define INTERFACE_GL_PRIMITIVE(terminal) \
-protected:\
+public:\
 	virtual void Render( void ) ##terminal\
-	virtual void Rotate( void ) ##terminal\
-	virtual void Scale( void ) ##terminal\
-	virtual void Move( void ) ##terminal\
-	virtual void Color( void ) ##terminal\
+	virtual void Rotate( float radians ) ##terminal\
+	virtual void Scale( float scale_x, float scale_y ) ##terminal\
+	virtual void Move( float move_X, float move_y ) ##terminal\
+	virtual void Color( float color_r, float color_g, float color_b, float color_a ) ##terminal\
+	virtual void SetMVP( glm::mat4 projection ) ##terminal\
 
 #define BASE_GL_PRIMITIVE		INTERFACE_GL_PRIMITIVE(=0;)
 #define DERIVED_GL_PRIMITIVE	INTERFACE_GL_PRIMITIVE(;)
 
-class GLprimitive {
+class GLPrimitive {
 
 protected:
 	glm::vec3 v3_scale, v3_position;
 	glm::vec4 v4_color;
 	glm::mat4 m4_scale, m4_rotate, m4_move, m4_mvp;
-	GLuint shaderProgram, vertexShader, fragmentShader;
-	GLint shaderDataAttrib_Position;
 
 public:
+	GLuint shader_Program, shader_Vertex, shader_Fragment;
+	GLuint vao, vbo, ebo;
+	GLint shaderDataAttrib_Position;
+	//GLchar * feedBack[1024];
 
 	enum GL_PRIMITIVE {
 		GLPOINT,
@@ -83,11 +91,12 @@ public:
 		GLQUAD, // Actually just 2 triangles, but whatever.
 	};
 
-	virtual ~GLprimitive( ) {}
+	GL_PRIMITIVE glPrim;
+
+	virtual ~GLPrimitive( ) {}
 
 	BASE_GL_PRIMITIVE
 
-};
-		
+};	
 
 #endif

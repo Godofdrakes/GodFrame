@@ -27,7 +27,16 @@
     <ClCompile Include="source\GodFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLpoint.cpp">
+    <ClCompile Include="source\GLLine.cpp">
+      <Filter>Source Files\GLprimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLPoint.cpp">
+      <Filter>Source Files\GLprimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLQuad.cpp">
+      <Filter>Source Files\GLprimitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLTri.cpp">
       <Filter>Source Files\GLprimitive</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,10 +47,19 @@
     <ClInclude Include="include\OpenGL_Tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLpoint.h">
+    <ClInclude Include="include\GLPrimitive.h">
       <Filter>Header Files\GLprimitive</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLprimitive.h">
+    <ClInclude Include="include\GLLine.h">
+      <Filter>Header Files\GLprimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLPoint.h">
+      <Filter>Header Files\GLprimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLQuad.h">
+      <Filter>Header Files\GLprimitive</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLTri.h">
       <Filter>Header Files\GLprimitive</Filter>
     </ClInclude>
   </ItemGroup>

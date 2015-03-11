@@ -1,16 +1,21 @@
-#include "../include/GodFrame.h"
+#include "GodFrame.h"
 #include <assert.h>
 
 GameEngine::GameEngine( void ) {
-	glfwInitError = !( glfwInit( ) == GL_TRUE ); // Returns GL_TRUE if all is well.
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	error_glfw = !( glfwInit( ) == GL_TRUE ); // Returns GL_TRUE if all is well.
+	assert( !error_glfw && "| GameEngine::StartUp - glfw Could not initialize |" );
 
 	glfwSetErrorCallback( error_callback );
 	windowPointer = NULL;
+
+	Window_New( "GodFrame", 1024, 768 );
+
+	error_glew = !( glewInit( ) == GLEW_OK );
+	assert( !error_glew && "| GameEngine::StartUp - glew Could not initialize |" );
 }
 
 bool GameEngine::Update( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	assert( windowPointer != NULL && "| GameEngine::Update - windowPointer is NULL |" );
 
 	if( glfwWindowShouldClose( windowPointer ) ) { return false; }
@@ -27,7 +32,7 @@ bool GameEngine::Update( void ) {
 }
 
 void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	assert( windowPointer == NULL && "| GameEngine::NewWindow - windowPointer already exists |" );
 	assert( windowName && "| GameEngine::NewWindow - Invalid window name |" );
 	assert( windowWidth > 0 && "| GameEngine::NewWindow - width must be greater than 0 |" );
@@ -49,36 +54,36 @@ void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, u
 	glfwSwapInterval( 1 );
 }
 void GameEngine::Window_Stop( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	assert( windowPointer != NULL && "| GameEngine::EndWindow - windowPointer is NULL |" );
 	return glfwSetWindowShouldClose( windowPointer, GL_FALSE ); // Tell the window it's no longer needed
 }
 void GameEngine::Window_Close( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	assert( windowPointer != NULL && "| GameEngine::CloseWindow - windowPointer is NULL |" );
 	glfwDestroyWindow( windowPointer ); // Close the window
 	windowPointer = NULL; // We don't need the pointer any more
 }
 
 const char* GameEngine::Window_GetName( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	return name.c_str( );
 }
 int GameEngine::Window_GetWidth( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	return width;
 }
 int GameEngine::Window_GetHeight( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	return height;
 }
 
 void GameEngine::Engine_Close( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	glfwTerminate( ); // Shut down all the things! ALL THE THINGS!
 }
 double GameEngine::Engine_GetTime( void ) {
-	assert( !glfwInitError && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
 	return glfwGetTime( );
 }
 void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a ) {
