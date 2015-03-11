@@ -39,16 +39,16 @@
     <ClCompile Include="source\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLLine.cpp">
+    <ClCompile Include="source\GLObjects\GLLine.cpp">
       <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLQuad.cpp">
+    <ClCompile Include="source\GLObjects\GLPoint.cpp">
       <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLTri.cpp">
+    <ClCompile Include="source\GLObjects\GLQuad.cpp">
       <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLPoint.cpp">
+    <ClCompile Include="source\GLObjects\GLTri.cpp">
       <Filter>Source Files\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,25 +59,28 @@
     <ClInclude Include="include\OpenGL_Tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLPrimitive.h">
-      <Filter>Header Files\GLObjects</Filter>
-    </ClInclude>
     <ClInclude Include="include\GLObjectManager.h">
       <Filter>Header Files\GLObjects</Filter>
     </ClInclude>
     <ClInclude Include="include\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLLine.h">
+    <ClInclude Include="include\GLObjects.h">
+      <Filter>Header Files\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLPrimitive.h">
+      <Filter>Header Files\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLLine.h">
       <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLQuad.h">
+    <ClInclude Include="include\GLObjects\GLPoint.h">
       <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLTri.h">
+    <ClInclude Include="include\GLObjects\GLQuad.h">
       <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLPoint.h">
+    <ClInclude Include="include\GLObjects\GLTri.h">
       <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
   </ItemGroup>

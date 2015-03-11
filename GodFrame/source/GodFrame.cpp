@@ -94,5 +94,5 @@ void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a )
 }
 
 RenderObject & GameEngine::MakeObject( GL_PRIMITIVE type ) {
-
+	return RenderObject( renderObjectmanager.MakeObject( GLTRI), render )
 }
