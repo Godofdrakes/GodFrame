@@ -3,7 +3,7 @@
 int main( void ) {
 
 	GameEngine Engine; // Inits the Engine
-	Engine.NewWindow( "GodFrame", 1024, 768 );
+	Engine.NewWindow( "GodFrame", 1024, 768 ); // Makes a new window
 
 	while( Engine.Update( ) ) {
 

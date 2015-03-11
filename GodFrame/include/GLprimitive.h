@@ -3,8 +3,50 @@
 
 #include "OpenGL_Tools.h"
 
+/* GLPrimitive base/derived planning
+
+GLPrimitive
+	Render() = 0;
+	Rotate() = 0;
+	Scale() = 0;
+	Move() = 0;
+	Color() = 0;
+
+GLPoint
+	Render();
+	Rotate(); // Doesn't actually do anything. Why would you rotate a point?
+	Scale(); // Doesn't actually do anything. Why would you scale a point?
+	Move();
+	Color();
+
+GLPoint
+	Render();
+	Rotate();
+	Scale(); // Will work, but not recomended. Will implement functions for changing the two ends.
+	Move();
+	Color();
+
+	// Extra functions to make it easier to use
+	SetStart(); // Will move the first point in the line
+	SetEnd(); // Will move the last point in the line
+
+GLTri
+	Render();
+	Rotate();
+	Scale();
+	Move();
+	Color();
+
+GLQuad // It's actually just 2 GLTri. Don't tell anyone.
+	Render();
+	Rotate();
+	Scale();
+	Move();
+	Color();
+*/
+
 struct Vertex {
-	glm::vec2 position, texture;
+	float position[2], UV[2];
 };
 
 // Interface macro for quick declaration of a large block of code.
@@ -14,32 +56,11 @@ struct Vertex {
 // Use BASE_GL_PRIMITIVE for the base class and DERIVED_GL_PRIMITIVE for derived classes. DO NOT USE THE INTERFACE DIRECTLY
 #define INTERFACE_GL_PRIMITIVE(terminal) \
 protected:\
-	virtual void GenBuffers( void ) ##terminal\
-	virtual void DestroyBuffers( void ) ##terminal\
-	\
-	virtual void BindBuffers( void ) ##terminal\
-	virtual void BufferVBO( void ) ##terminal\
-	virtual void BufferUVO( void ) ##terminal\
-	virtual void BufferEBO( void ) ##terminal\
-	\
-	virtual void SetMVP( glm::mat4 projection ) ##terminal\
-	\
-public:\
-	virtual void LoadTexture( const char* fileName ) ##terminal\
-	\
-	virtual void SetSize( float set_width, float set_height ) ##terminal \
-	virtual void SetSize( glm::vec2 set_size ) ##terminal \
-	\
-	virtual void SetPosition( float set_x, float set_y ) ##terminal \
-	virtual void SetPosition( glm::vec2 set_position ) ##terminal \
-	\
-	virtual void SetColor( float set_red, float set_green, float set_blue, float set_alpha ) ##terminal \
-	virtual void SetColor( glm::vec4 set_color ) ##terminal \
-	\
-	virtual void SetRotaionRad( float radians ) ##terminal\
-	virtual void SetRotaionDeg( float degrees ) ##terminal\
-	\
-	virtual void Draw( void ) ##terminal\
+	virtual void Render( void ) ##terminal\
+	virtual void Rotate( void ) ##terminal\
+	virtual void Scale( void ) ##terminal\
+	virtual void Move( void ) ##terminal\
+	virtual void Color( void ) ##terminal\
 
 #define BASE_GL_PRIMITIVE		INTERFACE_GL_PRIMITIVE(=0;)
 #define DERIVED_GL_PRIMITIVE	INTERFACE_GL_PRIMITIVE(;)
@@ -47,14 +68,22 @@ public:\
 class GLprimitive {
 
 protected:
-	glm::vec3 scale, position;
-	glm::vec4 color;
-	glm::mat4 model, rotation, view, mvp;
-	GLuint texture, ebo, uvo, vbo, vao, shaderProgram, vertexShader, fragmentShader;
-	GLint posAttrib, texAttrib;
+	glm::vec3 v3_scale, v3_position;
+	glm::vec4 v4_color;
+	glm::mat4 m4_scale, m4_rotate, m4_move, m4_mvp;
+	GLuint shaderProgram, vertexShader, fragmentShader;
+	GLint shaderDataAttrib_Position;
 
 public:
-	virtual ~GLprimitive( ) {};
+
+	enum GL_PRIMITIVE {
+		GLPOINT,
+		GLLINE,
+		GLTRI,
+		GLQUAD, // Actually just 2 triangles, but whatever.
+	};
+
+	virtual ~GLprimitive( ) {}
 
 	BASE_GL_PRIMITIVE
 
