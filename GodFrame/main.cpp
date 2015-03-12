@@ -3,46 +3,44 @@
 
 #include "GodFrame.h"
 
-void LoadShaderProgramNOTEXTURE( GLPrimitive & glObject ) {
-	glObject.shader_Program = glCreateProgram( ); // Create the program
-	glAttachShader( glObject.shader_Program, glObject.shader_Vertex ); // Load the shaders to it.
-	glAttachShader( glObject.shader_Program, glObject.shader_Fragment );
-
-	// A fragment shader can have multiple buffers so we need to tell it which output is written where.
-	glBindFragDataLocation( glObject.shader_Program, 0, "v4_outColor" );
-
-	//glTransformFeedbackVaryings( glObject.shader_Program, 1, glObject.feedBack, GL_INTERLEAVED_ATTRIBS );
-
-	// Now we have to link the program.
-	glLinkProgram( glObject.shader_Program );
-
-	GLint isLinked = 0;
-	glGetProgramiv( glObject.shader_Program, GL_LINK_STATUS, &isLinked );
-	assert( isLinked = GL_TRUE && "| LoadShaderProgramNOTEXTURE - Could not link shader program |" );
-
-	// To actually use the sahders we have to say we are using the program.
-	glUseProgram( glObject.shader_Program );
-	// Only one program can be active at a time.
-
-	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-
-	glObject.shaderDataAttrib_Position = glGetAttribLocation( glObject.shader_Program, "v2_position" );
-	glEnableVertexAttribArray( glObject.shaderDataAttrib_Position );
-	glVertexAttribPointer( glObject.shaderDataAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, 0 );
-}
-
 int main( void ) {
 
 	GameEngine Engine( "GodFrame" ); // Inits the Engine
 
-	RenderObject point = ;
+	/*GLPrimitive * point = Engine.MakeObject( GLPOINT );
+	GLPrimitive * tri = Engine.MakeObject( GLTRI );
+	point->Move( 500, 500 );
+	tri->Move( 200, 200 );*/
 
 	const double TIME_TICKRATE = ( 1.0 / 15 );
 	double time_old = Engine.Engine_GetTime( );
 	double time_lag = 0.0;
 
-	float foo = 0.f;
+	double foo = 0.0;
+
+	GLuint vao, vbo, ebo;
+	glGenVertexArrays( 1, &vao );
+	glBindVertexArray( vao );
+
+	float vertices[] = {
+		0.0f, 0.5f,
+		0.5f, -0.5f,
+		-0.5f, -0.5f,
+	};
+
+	glGenBuffers( 1, &vbo );
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+
+	GLuint elements[] = { 0, 1, 2 };
+
+	glGenBuffers( 1, &ebo );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( elements ), elements, GL_STATIC_DRAW );
+
+	glm::vec4 v4_color = glm::vec4( 1.f, 1.f, 1.f, 1.f );
+
+	CheckGLError( "main" );
 
 	while( Engine.Window_Update( ) ) {
 		double time_now = Engine.Engine_GetTime( );
@@ -53,18 +51,30 @@ int main( void ) {
 		while( time_lag >= TIME_TICKRATE ) {
 			// Do thinking stuff here
 
-			foo += 0.5;
+			++foo;
 
 			// At the end
 			time_lag -= TIME_TICKRATE;
 		}
 
 		// Do drawing stuff here
-		point.SetMVP( Engine.m4_projection );
-		point.Render( );
+		//object->Rotate( foo );
+		/*point->Render( );
+		tri->Rotate( (float)foo );
+		tri->Render( );*/
+		glUseProgram( Engine.shader_Untextured );
+		glBindVertexArray( vao );
+		glUniformMatrix4fv( glGetUniformLocation( Engine.shader_Untextured, "m4_mvp" ), 1, GL_FALSE, glm::value_ptr( Engine.m4_projection ) );
+		glUniform4fv( glGetUniformLocation( Engine.shader_Untextured, "v4_color" ), 1, glm::value_ptr( v4_color ) );
+		//glDrawElements( GL_POINTS, 3, GL_UNSIGNED_INT, 0 );
+		glDrawArrays( GL_POINTS, 0, 1 );
+		CheckGLError( "main2" );
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
 	}
+
+	/*delete point;
+	delete tri;*/
 
 	// Cleanup the windows
 	Engine.Window_Close( );

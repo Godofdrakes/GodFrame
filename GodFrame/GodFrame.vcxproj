@@ -85,10 +85,10 @@
     <ClCompile Include="source\GLObjects\GLQuad.cpp" />
     <ClCompile Include="source\GLObjects\GLTri.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
-    <ClCompile Include="source\GLObjectManager.cpp" />
     <ClCompile Include="source\GodFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\GLM_Tools.h" />
     <ClInclude Include="include\GLObjects.h" />
     <ClInclude Include="include\GLObjects\GLLine.h" />
     <ClInclude Include="include\GLObjects\GLPoint.h" />
@@ -96,7 +96,6 @@
     <ClInclude Include="include\GLObjects\GLQuad.h" />
     <ClInclude Include="include\GLObjects\GLTri.h" />
     <ClInclude Include="include\InputManager.h" />
-    <ClInclude Include="include\GLObjectManager.h" />
     <ClInclude Include="include\GodFrame.h" />
     <ClInclude Include="include\OpenGL_Tools.h" />
   </ItemGroup>

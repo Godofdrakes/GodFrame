@@ -2,11 +2,9 @@
 #define _GODFRAME_H_
 
 #include <string>
-#include <vector>
 #include "OpenGL_Tools.h" // GLEW and GLFW
 #include "GLM_Tools.h" // GLM
-
-#include "GLObjectManager.h"
+#include "GLObjects.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && description ); }
@@ -21,12 +19,14 @@ private:
 	GLFWwindow * windowPointer; // Pointer to the window
 	std::string name; // Name of the window
 
-	RenderObjectManager renderObjectmanager;
+	void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
+	void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
 
 	void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
 
 public:
 	glm::mat4 m4_projection;
+	GLuint shader_Textured, shader_Untextured;
 
 	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );
 
@@ -43,7 +43,7 @@ public:
 	double Engine_GetTime( void );
 	void Engine_SetBackgroundColor( float r, float g, float b, float a );
 
-	RenderObject & MakeObject( GL_PRIMITIVE type );
+	GLPrimitive * MakeObject( GL_PRIMITIVE type );
 
 };
 

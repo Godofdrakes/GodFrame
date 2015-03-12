@@ -1,7 +1,11 @@
-#include "GLObjects.h"
+#include "GLObjects/GLPoint.h"
+#include "OpenGL_Tools.h"
 
-GLPoint::GLPoint( void ) {
-	glPrim = GLPOINT;
+GLPoint::GLPoint( GLuint shader, glm::mat4 projection ) {
+	CheckGLError( "GLPoint::GLPoint - start" );
+	shader_Program = shader;
+	m4_mvp = m4_move = m4_rotate = m4_scale = glm::mat4( 1.f );
+	m4_projection = projection;
 
 	glGenVertexArrays( 1, &vao );
 	glBindVertexArray( vao );
@@ -18,16 +22,21 @@ GLPoint::GLPoint( void ) {
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( elements ), elements, GL_STATIC_DRAW );
 
-	Scale( 64.f, 64.f );
-	Move( 64.f, 64.f );
 	Color( 1.f, 1.f, 1.f, 1.f );
+	CheckGLError( "GLPoint::GLPoint - end" );
 }
 GLPoint::~GLPoint( void ) {
+	CheckGLError( "GLPoint::~GLPoint - start" );
 	glDeleteBuffers( 1, &ebo );
 	glDeleteBuffers( 1, &vbo );
 	glDeleteVertexArrays( 1, &vao );
+	CheckGLError( "GLPoint::~GLPoint - end" );
 }
 void GLPoint::Render( void ) {
+	CheckGLError( "GLPoint::Render - start" );
+
+	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
+
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
 
@@ -35,6 +44,8 @@ void GLPoint::Render( void ) {
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
 	glDrawElements( GL_POINTS, 1, GL_UNSIGNED_INT, 0 );
+
+	CheckGLError( "GLPoint::Render - end" );
 }
 void GLPoint::Rotate( float radians ) {
 	m4_rotate = glm::rotate( glm::mat4( ), radians, glm::vec3( 0.f, 0.f, 1.f ) );
@@ -49,7 +60,4 @@ void GLPoint::Move( float move_X, float move_y ) {
 }
 void GLPoint::Color( float color_r, float color_g, float color_b, float color_a ) {
 	v4_color = glm::vec4( color_r, color_g, color_b, color_a );
-}
-void GLPoint::SetMVP( glm::mat4 projection ) {
-	m4_mvp = projection * m4_move * m4_rotate * m4_scale;
 }

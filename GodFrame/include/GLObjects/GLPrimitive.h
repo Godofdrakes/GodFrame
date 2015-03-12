@@ -1,12 +1,28 @@
 #ifndef _GLPRIMITIVE_H_
 #define _GLPRIMITIVE_H_
 
-#include "OpenGL_Tools.h"
+#include "../OpenGL_Tools.h"
+#include "../GLM_Tools.h"
+
+/* Overall object planning
+
+Couldn't get abstraction working quite correctly.
+
+Four seperate objects?
+
+Main contains framework
+	Framework contains Object factory
+
+Main calls Framework
+	Framework calls Factory
+		Factory makes Object
+		Factory returns Object
+	Framework returns Object
+Main gets Object
+
+*/
 
 /* GLPrimitive base/derived planning
-
-Set w set h functions?
-makes line easy to use and can be used by others
 
 GLPrimitive
 	Render() = 0; // The code that actualls calls the GL functions to draw.
@@ -17,15 +33,15 @@ GLPrimitive
 
 
 GLLine
+	// For ease of use, have the line's verts be in center and to the right.
+	// This results in the line's 'center' being the start of the line.
+	// Just set the line's width to how long it needs to be and you're good.
+
 	Render();
 	Rotate( float radians );
 	Scale( float scale_x, float scale_y ); // Will work, but not recomended. Will implement functions for changing the two ends.
 	Move( float move_X, float move_y );
 	Color( float color_r, float color_g, float color_b, float color_a );
-
-	// Extra functions to make it easier to use
-	SetStart( float start_x, float start_y ); // Will move the first point in the line
-	SetEnd( float end_x, float end_y ); // Will move the last point in the line
 
 
 GLTri
@@ -56,12 +72,11 @@ struct Vertex {
 // Use BASE_GL_PRIMITIVE for the base class and DERIVED_GL_PRIMITIVE for derived classes. DO NOT USE THE INTERFACE DIRECTLY
 #define INTERFACE_GL_PRIMITIVE(terminal) \
 public:\
-	virtual void Render( GLuint & shader ) ##terminal\
+	virtual void Render( void ) ##terminal\
 	virtual void Rotate( float radians ) ##terminal\
 	virtual void Scale( float scale_x, float scale_y ) ##terminal\
 	virtual void Move( float move_X, float move_y ) ##terminal\
 	virtual void Color( float color_r, float color_g, float color_b, float color_a ) ##terminal\
-	virtual void SetMVP( glm::mat4 projection ) ##terminal\
 
 #define BASE_GL_PRIMITIVE		INTERFACE_GL_PRIMITIVE(=0;)
 #define DERIVED_GL_PRIMITIVE	INTERFACE_GL_PRIMITIVE(;)
@@ -78,14 +93,12 @@ class GLPrimitive {
 
 protected:
 	glm::vec4 v4_color;
-	glm::mat4 m4_scale, m4_rotate, m4_move, m4_mvp;
+	glm::mat4 m4_scale, m4_rotate, m4_move, m4_mvp, m4_projection;
+	GLuint shader_Program;
+	GLuint vao, vbo, ebo;
 
 public:
-	GLuint shader_Program, shader_Vertex, shader_Fragment;
-	GLuint vao, vbo, ebo;
-	GLint shaderDataAttrib_Position;
-
-	GL_PRIMITIVE glPrim;
+	//GLint shaderDataAttrib_Position;
 
 	virtual ~GLPrimitive( ) {}
 

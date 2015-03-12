@@ -1,5 +1,7 @@
 #include "GodFrame.h"
 #include <assert.h>
+#include <fstream>
+#include <vector>
 
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
 	error_glfw = !( glfwInit( ) == GL_TRUE ); // Returns GL_TRUE if all is well.
@@ -14,7 +16,98 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	error_glew = !( glewInit( ) == GLEW_OK );
 	assert( !error_glew && "| GameEngine::StartUp - glew Could not initialize |" );
 
-	renderObjectmanager = RenderObjectManager( m4_projection );
+	GLuint shader_Vertex, shader_Fragment;
+	/*Shader_Load( "engine/shader/Shader_Vertex_TEXTURE.glsl", shader_Vertex, GL_VERTEX_SHADER );
+	Shader_Load( "engine/shader/Shader_Fragment_TEXTURE.glsl", shader_Fragment, GL_FRAGMENT_SHADER );
+	Shader_Link( shader_Textured, shader_Vertex, shader_Fragment, true );*/
+
+	Shader_Load( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", shader_Vertex, GL_VERTEX_SHADER );
+	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", shader_Fragment, GL_FRAGMENT_SHADER );
+	Shader_Link( shader_Untextured, shader_Vertex, shader_Fragment, false );;
+}
+void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType ) {
+	CheckGLError( "ShaderProgram::LoadShader - start" );
+
+	std::ifstream ifs( fileName, std::ios::in | std::ios::binary | std::ios::ate );
+
+	std::ifstream::pos_type fileSize = ifs.tellg( );
+	ifs.seekg( 0, std::ios::beg );
+
+	std::vector<char> bytes( fileSize );
+	ifs.read( &bytes[0], fileSize );
+
+	std::string sourceCode( bytes.begin( ), bytes.end( ) );
+
+	const GLchar* sourceChars = sourceCode.c_str( );
+
+	shaderIndex = glCreateShader( shaderType ); // What kind of shader is it?
+	glShaderSource( shaderIndex, 1, &sourceChars, NULL ); // Load the code for the shader
+	glCompileShader( shaderIndex ); // Build the shader from that code
+
+	// Error checking
+	GLint isCompiled = 0;
+	glGetShaderiv( shaderIndex, GL_COMPILE_STATUS, &isCompiled );
+
+	if( isCompiled != GL_TRUE ) {
+#ifdef _DEBUG
+		char buffer[512];
+		glGetShaderInfoLog( shaderIndex, 512, NULL, buffer );
+		assert( buffer );
+#else
+		assert( "| LoadShader - Could not compile shader |" );
+#endif
+	}
+	CheckGLError( "ShaderProgram::LoadShader - end" );
+}
+void GameEngine::Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured ) {
+	CheckGLError( "ShaderProgram::LinkShader - start" );
+	shader_program = glCreateProgram( ); // Create the program
+	glAttachShader( shader_program, shader_vertex ); // Load the shaders to it.
+	glAttachShader( shader_program, shader_fragment );
+
+	// A fragment shader can have multiple buffers so we need to tell it which output is written where.
+	glBindFragDataLocation( shader_program, 0, "v4_outColor" );
+
+	//glTransformFeedbackVaryings( glObject.shader_Program, 1, glObject.feedBack, GL_INTERLEAVED_ATTRIBS );
+
+	// Now we have to link the program.
+	glLinkProgram( shader_program );
+
+	GLint isLinked = 0;
+	glGetProgramiv( shader_program, GL_LINK_STATUS, &isLinked );
+	if( isLinked == GL_FALSE ) {
+		GLint maxLength = 0;
+		glGetProgramiv( shader_program, GL_INFO_LOG_LENGTH, &maxLength );
+
+		//The maxLength includes the NULL character
+		std::vector<GLchar> infoLog( maxLength );
+		glGetProgramInfoLog( shader_program, maxLength, &maxLength, &infoLog[0] );
+
+		//The program is useless now. So delete it.
+		glDeleteProgram( shader_program );
+
+		//Provide the infolog in whatever manner you deem best.
+		//Exit with failure.
+		return;
+	}
+
+	// To actually use the sahders we have to say we are using the program.
+	glUseProgram( shader_program );
+	// Only one program can be active at a time.
+
+	glEnable( GL_BLEND );
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
+	GLuint shaderDataAttrib_Position = glGetAttribLocation( shader_program, "v2_position" );
+	glEnableVertexAttribArray( shaderDataAttrib_Position );
+	glVertexAttribPointer( shaderDataAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+
+	if( textured ) {
+		GLuint shaderDataAttrib_Position = glGetAttribLocation( shader_program, "v2_texcoord" );
+		glEnableVertexAttribArray( shaderDataAttrib_Position );
+		glVertexAttribPointer( shaderDataAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+	}
+	CheckGLError( "ShaderProgram::LinkShader - end" );
 }
 
 void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
@@ -69,20 +162,27 @@ void GameEngine::Window_Close( void ) {
 }
 
 const char* GameEngine::Window_GetName( void ) {
+	CheckGLError( "GameEngine::Window_GetName - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	CheckGLError( "GameEngine::Window_GetName - end" );
 	return name.c_str( );
 }
 int GameEngine::Window_GetWidth( void ) {
+	CheckGLError( "GameEngine::Window_GetWidth - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	CheckGLError( "GameEngine::Window_GetWidth - end" );
 	return width;
 }
 int GameEngine::Window_GetHeight( void ) {
+	CheckGLError( "GameEngine::Window_GetHeight - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	CheckGLError( "GameEngine::Window_GetHeight - end" );
 	return height;
 }
 
 void GameEngine::Engine_Close( void ) {
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	// Technically I should be deleting shaders.
 	glfwTerminate( ); // Shut down all the things! ALL THE THINGS!
 }
 double GameEngine::Engine_GetTime( void ) {
@@ -92,7 +192,22 @@ double GameEngine::Engine_GetTime( void ) {
 void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a ) {
 	color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
-
-RenderObject & GameEngine::MakeObject( GL_PRIMITIVE type ) {
-	return RenderObject( renderObjectmanager.MakeObject( GLTRI), render )
+GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type ) {
+	CheckGLError( "GameEngine::MakeObject - start" );
+	GLPrimitive * object = NULL;
+	switch( type ) {
+	case GLPOINT:
+		object = new GLPoint( shader_Untextured, m4_projection );
+		CheckGLError( "GameEngine::~MakeObject - GLPOINT" );
+		break;
+	case GLTRI:
+		object = new GLTri( shader_Untextured, m4_projection );
+		CheckGLError( "RenderObjectManager::~MakeObject - GLTRI" );
+		break;
+	default:
+		assert( "| GameEngine::MakeObject - invalid type |" );
+		break;
+	}
+	CheckGLError( "GameEngine::MakeObject - end" );
+	return object;
 }

@@ -33,9 +33,6 @@
     <ClCompile Include="source\GodFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GLObjectManager.cpp">
-      <Filter>Source Files\GLObjects</Filter>
-    </ClCompile>
     <ClCompile Include="source\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
     <ClInclude Include="include\OpenGL_Tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLObjectManager.h">
-      <Filter>Header Files\GLObjects</Filter>
-    </ClInclude>
     <ClInclude Include="include\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="include\GLObjects\GLTri.h">
       <Filter>Header Files\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLM_Tools.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
