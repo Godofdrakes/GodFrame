@@ -51,8 +51,8 @@
     <ClCompile Include="source\GodFrame.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="source\InputManager.cpp">
-      <Filter>Source Files\GameEngine</Filter>
+    <ClCompile Include="source\GLObjects\GLTexture.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,11 +80,11 @@
     <ClInclude Include="include\GodFrame.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="include\InputManager.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="include\OpenGL_Tools.h">
       <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLTexture.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

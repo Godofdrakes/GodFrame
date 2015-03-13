@@ -44,6 +44,8 @@ void GLPoint::Render( void ) {
 
 	glDrawElements( GL_POINTS, 1, GL_UNSIGNED_INT, 0 );
 
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	glDisableVertexAttribArray( positionAttrib );
 
 	CheckGLError( "GLPoint::Render - end" );

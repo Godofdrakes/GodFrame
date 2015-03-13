@@ -87,6 +87,7 @@ enum GL_PRIMITIVE {
 	GLLINE,
 	GLTRI,
 	GLQUAD, // Actually just 2 triangles, but whatever.
+	GLTEXTURE,
 };
 
 class GLPrimitive {
@@ -98,7 +99,6 @@ protected:
 	GLuint vao, vbo, ebo;
 
 public:
-	//GLint shaderDataAttrib_Position;
 
 	virtual ~GLPrimitive( ) {}
 

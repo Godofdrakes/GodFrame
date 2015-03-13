@@ -10,7 +10,6 @@ GLFWwindow * GameEngine::windowPointer = NULL; // Pointer to the window
 std::string GameEngine::name; // Name of the window
 glm::mat4 GameEngine::m4_projection = glm::mat4( 1.f );
 ShaderProgram GameEngine::textured, GameEngine::untextured;
-InputManager GameEngine::inputManager;
 
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
 
@@ -35,8 +34,6 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	Shader_Load( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", untextured.vertex, GL_VERTEX_SHADER );
 	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", untextured.fragment, GL_FRAGMENT_SHADER );
 	Shader_Link( untextured.handle, untextured.vertex, untextured.fragment, false );
-
-	inputManager.Init( );
 
 	engineHasStarted = true;
 }
@@ -144,7 +141,6 @@ bool GameEngine::Window_Update( void ) {
 	// Stuff for the end of this tick.
 	glfwSwapBuffers( windowPointer );
 	glfwPollEvents( );
-	inputManager.Update( );
 
 	// Stuff for the start of the next tick.
 	glClearColor( color[0], color[1], color[2], color[3] );
@@ -189,7 +185,7 @@ double GameEngine::Engine_GetTime( void ) {
 void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a ) {
 	color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
-GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type ) {
+GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type, const char * optional_textureFilePath ) {
 	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	GLPrimitive * object = NULL;
 	switch( type ) {
@@ -201,6 +197,13 @@ GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type ) {
 		break;
 	case GLTRI:
 		object = new GLTri( untextured.handle, m4_projection );
+		break;
+	case GLQUAD:
+		object = new GLQuad( untextured.handle, m4_projection );
+		break;
+	case GLTEXTURE:
+		assert( optional_textureFilePath != NULL && "Must provide file path to texture" );
+		object = new GLTexture( textured.handle, m4_projection, optional_textureFilePath );
 		break;
 	default:
 		assert( "| GameEngine::MakeObject - invalid type |" );
