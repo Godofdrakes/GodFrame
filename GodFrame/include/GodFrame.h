@@ -52,6 +52,8 @@ public:
 	static double Engine_GetTime( void );
 	static void Engine_SetBackgroundColor( float r, float g, float b, float a );
 
+	static void Input_MousePos( double & mouse_x, double & mouse_y );
+
 	static void LoadFont( const char * fontFilePath );
 
 	static GLPrimitive * MakeObject( GL_PRIMITIVE type, const char * optional_textureFilePath = NULL );

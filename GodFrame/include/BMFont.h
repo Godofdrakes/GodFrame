@@ -40,6 +40,7 @@ public:
 	void UnloadFont( void ); // Unfinished
 
 	void DrawString( const char * putWordsHere, float move_x, float move_y );
+	void FontScale( float pixHeight );
 
 };
 
