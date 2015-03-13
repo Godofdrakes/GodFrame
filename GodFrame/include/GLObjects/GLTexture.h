@@ -9,7 +9,7 @@ class GLTexture : public GLPrimitive {
 private:
 	GLuint texture;
 	GLuint uvo; // Texture UV
-	Vertex uvData[4];
+	float uvData[8];
 
 public:
 

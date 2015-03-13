@@ -4,10 +4,11 @@
 #include <string>
 #include "OpenGL_Tools.h" // GLEW and GLFW
 #include "GLM_Tools.h" // GLM
+#include "BMFont.h"
 #include "GLObjects.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
-static void error_callback( int error, const char* description ) { assert( 0 && description ); }
+static void error_callback( int error, const char* description ) { assert( 0 && error && description ); }
 
 struct ShaderProgram {
 	GLuint handle;
@@ -34,6 +35,7 @@ private:
 	static void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
 
 public:
+	static BMFont fontManager;
 
 	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );
 
@@ -49,6 +51,8 @@ public:
 	static void Engine_Close( void ); // Shuts down EVERYTHING
 	static double Engine_GetTime( void );
 	static void Engine_SetBackgroundColor( float r, float g, float b, float a );
+
+	static void LoadFont( const char * fontFilePath );
 
 	static GLPrimitive * MakeObject( GL_PRIMITIVE type, const char * optional_textureFilePath = NULL );
 

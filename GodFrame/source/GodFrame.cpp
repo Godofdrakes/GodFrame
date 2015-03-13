@@ -10,6 +10,7 @@ GLFWwindow * GameEngine::windowPointer = NULL; // Pointer to the window
 std::string GameEngine::name; // Name of the window
 glm::mat4 GameEngine::m4_projection = glm::mat4( 1.f );
 ShaderProgram GameEngine::textured, GameEngine::untextured;
+BMFont GameEngine::fontManager;
 
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
 
@@ -210,4 +211,7 @@ GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type, const char * optional_t
 		break;
 	}
 	return object;
+}
+void GameEngine::LoadFont( const char * fontFilePath ) {
+	fontManager.LoadFont( fontFilePath, textured.handle, m4_projection );
 }

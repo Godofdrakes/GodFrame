@@ -65,3 +65,4 @@ void GLPoint::Move( float move_X, float move_y ) {
 void GLPoint::Color( float color_r, float color_g, float color_b, float color_a ) {
 	v4_color = glm::vec4( color_r, color_g, color_b, color_a );
 }
+void GLPoint::UV( float x, float y, float w, float h ) {}

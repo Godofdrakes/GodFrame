@@ -77,6 +77,7 @@ public:\
 	virtual void Scale( float scale_x, float scale_y ) ##terminal\
 	virtual void Move( float move_X, float move_y ) ##terminal\
 	virtual void Color( float color_r, float color_g, float color_b, float color_a ) ##terminal\
+	virtual void UV( float x, float y, float w, float h ) ##terminal\
 
 #define BASE_GL_PRIMITIVE		INTERFACE_GL_PRIMITIVE(=0;)
 #define DERIVED_GL_PRIMITIVE	INTERFACE_GL_PRIMITIVE(;)

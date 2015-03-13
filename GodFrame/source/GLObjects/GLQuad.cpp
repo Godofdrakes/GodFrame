@@ -9,10 +9,10 @@ GLQuad::GLQuad( GLuint shader, glm::mat4 projection ) {
 	glBindVertexArray( vao );
 
 	float vertices[] = {
-		-1.f, 1.f,
-		1.f, 1.f,
-		1.f, -1.f,
-		-1.f, -1.f,
+		-0.5, 0.5,
+		0.5, 0.5,
+		0.5, -0.5,
+		-0.5, -0.5,
 	};
 
 	glGenBuffers( 1, &vbo );
@@ -74,3 +74,4 @@ void GLQuad::Move( float move_X, float move_y ) {
 void GLQuad::Color( float color_r, float color_g, float color_b, float color_a ) {
 	v4_color = glm::vec4( color_r, color_g, color_b, color_a );
 }
+void GLQuad::UV( float x, float y, float w, float h ) {}

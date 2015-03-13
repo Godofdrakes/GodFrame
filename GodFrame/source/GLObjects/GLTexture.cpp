@@ -9,10 +9,10 @@ GLTexture::GLTexture( GLuint shader, glm::mat4 projection, const char * filePath
 	glBindVertexArray( vao );
 
 	float vertices[] = {
-		-1.f, 1.f,
-		1.f, 1.f,
-		1.f, -1.f,
-		-1.f, -1.f,
+		-0.5, 0.5,
+		0.5, 0.5,
+		0.5, -0.5,
+		-0.5, -0.5,
 	};
 
 	glGenBuffers( 1, &vbo );
@@ -28,29 +28,20 @@ GLTexture::GLTexture( GLuint shader, glm::mat4 projection, const char * filePath
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( elements ), elements, GL_STATIC_DRAW );
 
-	float uv[] = {
-		0.f, 0.f,
-		1.f, 0.f,
-		1.f, 1.f,
-		0.f, 1.f,
-	};
+	uvData[0] = 0.f;
+	uvData[1] = 0.f;
+	uvData[2] = 1.f;
+	uvData[3] = 0.f;
+	uvData[4] = 1.f;
+	uvData[5] = 1.f;
+	uvData[6] = 0.f;
+	uvData[7] = 1.f;
 
 	glGenBuffers( 1, &uvo );
 	glBindBuffer( GL_ARRAY_BUFFER, uvo );
-	glBufferData( GL_ARRAY_BUFFER, sizeof( uv ), uv, GL_DYNAMIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( uvData ), uvData, GL_DYNAMIC_DRAW );
 
-	/*int width, height;
-	unsigned char * imageData = SOIL_load_image( filePath, &width, &height, 0, SOIL_LOAD_RGBA );
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData );
-	SOIL_free_image_data( imageData );*/
-
-	texture = SOIL_load_OGL_texture( filePath, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT );
-
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	glGenerateMipmap( GL_TEXTURE_2D );
+	texture = SOIL_load_OGL_texture( filePath, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT );
 
 	Scale( 64.f, 64.f );
 	Color( 1.f, 1.f, 1.f, 1.f );
@@ -76,16 +67,7 @@ void GLTexture::Render( void ) {
 	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
 	glBindBuffer( GL_ARRAY_BUFFER, uvo );
-
-	float uv[] = {
-		0.f, 0.f,
-		1.f, 0.f,
-		1.f, 1.f,
-		0.f, 1.f,
-	};
-
-	glBindBuffer( GL_ARRAY_BUFFER, uvo );
-	glBufferData( GL_ARRAY_BUFFER, sizeof( uv ), uv, GL_DYNAMIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( uvData ), uvData, GL_DYNAMIC_DRAW );
 
 	GLuint textureAttrib = glGetAttribLocation( shader_Program, "v2_texcoord" );
 	glEnableVertexAttribArray( textureAttrib );
@@ -123,4 +105,14 @@ void GLTexture::Move( float move_X, float move_y ) {
 }
 void GLTexture::Color( float color_r, float color_g, float color_b, float color_a ) {
 	v4_color = glm::vec4( color_r, color_g, color_b, color_a );
+}
+void GLTexture::UV( float x, float y, float w, float h ) {
+	uvData[0] = x;
+	uvData[1] = y;
+	uvData[2] = x + w;
+	uvData[3] = y;
+	uvData[4] = x + w;
+	uvData[5] = y + h;
+	uvData[6] = x;
+	uvData[7] = y + h;
 }

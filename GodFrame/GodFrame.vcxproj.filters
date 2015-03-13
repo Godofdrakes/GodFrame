@@ -54,6 +54,9 @@
     <ClCompile Include="source\GLObjects\GLTexture.cpp">
       <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
     </ClCompile>
+    <ClCompile Include="source\BMFont.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLObjects.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="include\GLObjects\GLTexture.h">
       <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BMFont.h">
+      <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

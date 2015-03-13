@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\BMFont.cpp" />
     <ClCompile Include="source\GLObjects\GLLine.cpp" />
     <ClCompile Include="source\GLObjects\GLPoint.cpp" />
     <ClCompile Include="source\GLObjects\GLQuad.cpp" />
@@ -88,6 +89,7 @@
     <ClCompile Include="source\GodFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BMFont.h" />
     <ClInclude Include="include\GLM_Tools.h" />
     <ClInclude Include="include\GLObjects.h" />
     <ClInclude Include="include\GLObjects\GLLine.h" />
