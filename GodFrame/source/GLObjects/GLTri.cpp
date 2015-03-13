@@ -37,6 +37,8 @@ void GLTri::Render( void ) {
 
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 
 	GLuint positionAttrib = glGetAttribLocation( shader_Program, "v2_position" );
 	glEnableVertexAttribArray( positionAttrib );
@@ -46,6 +48,8 @@ void GLTri::Render( void ) {
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
 	glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
+
+	glDisableVertexAttribArray( positionAttrib );
 
 	CheckGLError( "GLTri::Render - end" );
 }

@@ -99,6 +99,12 @@
     <ClInclude Include="include\GodFrame.h" />
     <ClInclude Include="include\OpenGL_Tools.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="engine\shader\Shader_Fragment_NOTEXTURE.glsl" />
+    <None Include="engine\shader\Shader_Fragment_TEXTURE.glsl" />
+    <None Include="engine\shader\Shader_Vertex_NOTEXTURE.glsl" />
+    <None Include="engine\shader\Shader_Vertex_TEXTURE.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

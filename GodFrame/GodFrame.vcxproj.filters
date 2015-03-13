@@ -87,4 +87,18 @@
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="engine\shader\Shader_Fragment_NOTEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Fragment_TEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Vertex_NOTEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Vertex_TEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

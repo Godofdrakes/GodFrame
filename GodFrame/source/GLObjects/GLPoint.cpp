@@ -1,5 +1,4 @@
 #include "GLObjects/GLPoint.h"
-#include "OpenGL_Tools.h"
 
 GLPoint::GLPoint( GLuint shader, glm::mat4 projection ) {
 	shader_Program = shader;
@@ -33,6 +32,8 @@ void GLPoint::Render( void ) {
 
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 
 	GLuint positionAttrib = glGetAttribLocation( shader_Program, "v2_position" );
 	glEnableVertexAttribArray( positionAttrib );
@@ -42,6 +43,10 @@ void GLPoint::Render( void ) {
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
 	glDrawElements( GL_POINTS, 1, GL_UNSIGNED_INT, 0 );
+
+	glDisableVertexAttribArray( positionAttrib );
+
+	CheckGLError( "GLPoint::Render - end" );
 }
 void GLPoint::Rotate( float radians ) {
 	m4_rotate = glm::rotate( glm::mat4( ), radians, glm::vec3( 0.f, 0.f, 1.f ) );

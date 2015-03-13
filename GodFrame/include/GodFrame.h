@@ -4,6 +4,7 @@
 #include <string>
 #include "OpenGL_Tools.h" // GLEW and GLFW
 #include "GLM_Tools.h" // GLM
+#include "InputManager.h"
 #include "GLObjects.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
@@ -27,6 +28,7 @@ private:
 	static std::string name; // Name of the window
 	static glm::mat4 m4_projection;
 	static ShaderProgram textured, untextured;
+	static InputManager inputManager;
 
 	static void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
 	static void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
