@@ -11,6 +11,7 @@ class BMFont {
 
 private:
 	int numPages;
+	float fontScale; // unfinished
 
 	glm::vec4 v4_color;
 	glm::mat4 m4_scale, m4_move, m4_mvp, m4_projection;
@@ -36,7 +37,7 @@ public:
 	~BMFont( void );
 
 	bool LoadFont( const char * filePath, GLuint shader, glm::mat4 proj );
-	void UnloadFont( void );
+	void UnloadFont( void ); // Unfinished
 
 	void DrawString( const char * putWordsHere, float move_x, float move_y );
 

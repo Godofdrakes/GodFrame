@@ -75,7 +75,9 @@ int main( void ) {
 
 		texture->Render( );
 
-		Engine.fontManager.DrawString( "Hello world!", 64, 500 );
+		Engine.fontManager.DrawString( "Ha:Ha:!!|", 64, 500 ); /*
+																Needs font scaling, coloring
+															   */
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
 	}
