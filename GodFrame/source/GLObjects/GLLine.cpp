@@ -32,22 +32,25 @@ GLLine::~GLLine( void ) {
 	glDeleteVertexArrays( 1, &vao );
 }
 void GLLine::Render( void ) {
-	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
 
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
-	glBindBuffer( GL_ARRAY_BUFFER, vbo );
-	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
 	GLuint positionAttrib = glGetAttribLocation( shader_Program, "v2_position" );
 	glEnableVertexAttribArray( positionAttrib );
 	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
+	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
 	glUniformMatrix4fv( glGetUniformLocation( shader_Program, "m4_mvp" ), 1, GL_FALSE, glm::value_ptr( m4_mvp ) );
+
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 	glDrawElements( GL_LINES, 2, GL_UNSIGNED_INT, 0 );
 
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	glDisableVertexAttribArray( positionAttrib );
 
 	CheckGLError( "GLLine::Render - end" );

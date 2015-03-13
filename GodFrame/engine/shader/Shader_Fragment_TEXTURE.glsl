@@ -9,6 +9,6 @@ uniform vec4 v4_color;
 
 void main() {
 
-	v4_outColor = texture( s2_texID, v2_Texcoord) * v4_color;
+	v4_outColor = texture( s2_texID, v2_Texcoord ) * v4_color;
 
 }

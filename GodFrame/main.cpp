@@ -8,7 +8,7 @@ int main( void ) {
 	GameEngine Engine( "GodFrame" ); // Inits the Engine
 
 	GLPrimitive * point = Engine.MakeObject( GLPOINT );
-	point->Move( 500, 500 );
+	point->Move( 10, 10 );
 
 	GLPrimitive * tri = Engine.MakeObject( GLTRI );
 	tri->Move( 200, 200 );
@@ -24,12 +24,11 @@ int main( void ) {
 	GLPrimitive * texture = Engine.MakeObject( GLTEXTURE, "engine/image/test.png" );
 	texture->Move( 32, 32 );
 
-	const double TIME_TICKRATE = ( 1.0 / 15 );
+	const double TIME_TICKRATE = ( 1.0 / 5 );
 	double time_old = Engine.Engine_GetTime( );
 	double time_lag = 0.0;
 
 	double foo = 0.0;
-	double bar = 0.0;
 
 	while( Engine.Window_Update( ) ) {
 		double time_now = Engine.Engine_GetTime( );
@@ -47,11 +46,15 @@ int main( void ) {
 		}
 
 		// Do drawing stuff here
+		line->Rotate( foo );
 		line->Render( );
+		point->Rotate( foo );
 		point->Render( );
+		tri->Rotate( foo );
 		tri->Render( );
+		quad->Rotate( foo );
 		quad->Render( );
-		texture->Render( );
+		//texture->Render( );
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
 	}
@@ -60,6 +63,7 @@ int main( void ) {
 	delete tri;
 	delete line;
 	delete quad;
+	//delete texture;
 
 	// Cleanup the windows
 	Engine.Window_Close( );
