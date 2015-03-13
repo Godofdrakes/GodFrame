@@ -9,6 +9,14 @@
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && description ); }
 
+struct ShaderProgram {
+	GLuint handle;
+	GLuint positionAttrib;
+	GLuint textureAttrib;
+	GLuint vertex;
+	GLuint fragment;
+};
+
 class GameEngine {
 
 private:
@@ -18,6 +26,8 @@ private:
 	float color[4]; // Color of the window's background
 	GLFWwindow * windowPointer; // Pointer to the window
 	std::string name; // Name of the window
+	glm::mat4 m4_projection;
+	ShaderProgram textured, untextured;
 
 	void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
 	void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
@@ -25,8 +35,6 @@ private:
 	void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
 
 public:
-	glm::mat4 m4_projection;
-	GLuint shader_Textured, shader_Untextured;
 
 	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );
 

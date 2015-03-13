@@ -2,7 +2,6 @@
 #include "OpenGL_Tools.h"
 
 GLTri::GLTri( GLuint shader, glm::mat4 projection ) {
-	CheckGLError( "GLTri::GLTri - start" );
 	shader_Program = shader;
 	m4_mvp = m4_move = m4_rotate = m4_scale = glm::mat4( 1.f );
 	m4_projection = projection;
@@ -26,29 +25,28 @@ GLTri::GLTri( GLuint shader, glm::mat4 projection ) {
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( elements ), elements, GL_STATIC_DRAW );
 
-	Scale( 10, 10 );
+	Scale( 64.f, 64.f );
 	Color( 1.f, 1.f, 1.f, 1.f );
-	CheckGLError( "GLTri::GLTri - end" );
 }
 GLTri::~GLTri( void ) {
-	CheckGLError( "GLTri::~GLTri - start" );
 	glDeleteBuffers( 1, &ebo );
 	glDeleteBuffers( 1, &vbo );
 	glDeleteVertexArrays( 1, &vao );
-	CheckGLError( "GLTri::~GLTri - end" );
 }
 void GLTri::Render( void ) {
-	CheckGLError( "GLTri::Render - start" );
-
-	//m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
+	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
 
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
 
+	GLuint positionAttrib = glGetAttribLocation( shader_Program, "v2_position" );
+	glEnableVertexAttribArray( positionAttrib );
+	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+
 	glUniformMatrix4fv( glGetUniformLocation( shader_Program, "m4_mvp" ), 1, GL_FALSE, glm::value_ptr( m4_mvp ) );
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
-	glDrawElements( GL_POINTS, 3, GL_UNSIGNED_INT, 0 );
+	glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
 
 	CheckGLError( "GLTri::Render - end" );
 }

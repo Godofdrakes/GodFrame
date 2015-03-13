@@ -16,18 +16,15 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	error_glew = !( glewInit( ) == GLEW_OK );
 	assert( !error_glew && "| GameEngine::StartUp - glew Could not initialize |" );
 
-	GLuint shader_Vertex, shader_Fragment;
-	/*Shader_Load( "engine/shader/Shader_Vertex_TEXTURE.glsl", shader_Vertex, GL_VERTEX_SHADER );
-	Shader_Load( "engine/shader/Shader_Fragment_TEXTURE.glsl", shader_Fragment, GL_FRAGMENT_SHADER );
-	Shader_Link( shader_Textured, shader_Vertex, shader_Fragment, true );*/
+	Shader_Load( "engine/shader/Shader_Vertex_TEXTURE.glsl", textured.vertex, GL_VERTEX_SHADER );
+	Shader_Load( "engine/shader/Shader_Fragment_TEXTURE.glsl", textured.fragment, GL_FRAGMENT_SHADER );
+	Shader_Link( textured.handle, textured.vertex, textured.fragment, true );
 
-	Shader_Load( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", shader_Vertex, GL_VERTEX_SHADER );
-	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", shader_Fragment, GL_FRAGMENT_SHADER );
-	Shader_Link( shader_Untextured, shader_Vertex, shader_Fragment, false );;
+	Shader_Load( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", untextured.vertex, GL_VERTEX_SHADER );
+	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", untextured.fragment, GL_FRAGMENT_SHADER );
+	Shader_Link( untextured.handle, untextured.vertex, untextured.fragment, false );;
 }
 void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType ) {
-	CheckGLError( "ShaderProgram::LoadShader - start" );
-
 	std::ifstream ifs( fileName, std::ios::in | std::ios::binary | std::ios::ate );
 
 	std::ifstream::pos_type fileSize = ifs.tellg( );
@@ -57,18 +54,14 @@ void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuin
 		assert( "| LoadShader - Could not compile shader |" );
 #endif
 	}
-	CheckGLError( "ShaderProgram::LoadShader - end" );
 }
 void GameEngine::Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured ) {
-	CheckGLError( "ShaderProgram::LinkShader - start" );
 	shader_program = glCreateProgram( ); // Create the program
 	glAttachShader( shader_program, shader_vertex ); // Load the shaders to it.
 	glAttachShader( shader_program, shader_fragment );
 
 	// A fragment shader can have multiple buffers so we need to tell it which output is written where.
 	glBindFragDataLocation( shader_program, 0, "v4_outColor" );
-
-	//glTransformFeedbackVaryings( glObject.shader_Program, 1, glObject.feedBack, GL_INTERLEAVED_ATTRIBS );
 
 	// Now we have to link the program.
 	glLinkProgram( shader_program );
@@ -107,7 +100,6 @@ void GameEngine::Shader_Link( GLuint & shader_program, GLuint & shader_vertex, G
 		glEnableVertexAttribArray( shaderDataAttrib_Position );
 		glVertexAttribPointer( shaderDataAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 	}
-	CheckGLError( "ShaderProgram::LinkShader - end" );
 }
 
 void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
@@ -162,21 +154,15 @@ void GameEngine::Window_Close( void ) {
 }
 
 const char* GameEngine::Window_GetName( void ) {
-	CheckGLError( "GameEngine::Window_GetName - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	CheckGLError( "GameEngine::Window_GetName - end" );
 	return name.c_str( );
 }
 int GameEngine::Window_GetWidth( void ) {
-	CheckGLError( "GameEngine::Window_GetWidth - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	CheckGLError( "GameEngine::Window_GetWidth - end" );
 	return width;
 }
 int GameEngine::Window_GetHeight( void ) {
-	CheckGLError( "GameEngine::Window_GetHeight - start" );
 	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	CheckGLError( "GameEngine::Window_GetHeight - end" );
 	return height;
 }
 
@@ -193,21 +179,20 @@ void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a )
 	color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type ) {
-	CheckGLError( "GameEngine::MakeObject - start" );
 	GLPrimitive * object = NULL;
 	switch( type ) {
 	case GLPOINT:
-		object = new GLPoint( shader_Untextured, m4_projection );
-		CheckGLError( "GameEngine::~MakeObject - GLPOINT" );
+		object = new GLPoint( untextured.handle, m4_projection );
+		break;
+	case GLLINE:
+		object = new GLPoint( untextured.handle, m4_projection );
 		break;
 	case GLTRI:
-		object = new GLTri( shader_Untextured, m4_projection );
-		CheckGLError( "RenderObjectManager::~MakeObject - GLTRI" );
+		object = new GLTri( untextured.handle, m4_projection );
 		break;
 	default:
 		assert( "| GameEngine::MakeObject - invalid type |" );
 		break;
 	}
-	CheckGLError( "GameEngine::MakeObject - end" );
 	return object;
 }

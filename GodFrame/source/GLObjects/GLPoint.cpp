@@ -2,7 +2,6 @@
 #include "OpenGL_Tools.h"
 
 GLPoint::GLPoint( GLuint shader, glm::mat4 projection ) {
-	CheckGLError( "GLPoint::GLPoint - start" );
 	shader_Program = shader;
 	m4_mvp = m4_move = m4_rotate = m4_scale = glm::mat4( 1.f );
 	m4_projection = projection;
@@ -23,29 +22,26 @@ GLPoint::GLPoint( GLuint shader, glm::mat4 projection ) {
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof( elements ), elements, GL_STATIC_DRAW );
 
 	Color( 1.f, 1.f, 1.f, 1.f );
-	CheckGLError( "GLPoint::GLPoint - end" );
 }
 GLPoint::~GLPoint( void ) {
-	CheckGLError( "GLPoint::~GLPoint - start" );
 	glDeleteBuffers( 1, &ebo );
 	glDeleteBuffers( 1, &vbo );
 	glDeleteVertexArrays( 1, &vao );
-	CheckGLError( "GLPoint::~GLPoint - end" );
 }
 void GLPoint::Render( void ) {
-	CheckGLError( "GLPoint::Render - start" );
-
 	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
 
 	glUseProgram( shader_Program );
 	glBindVertexArray( vao );
 
+	GLuint positionAttrib = glGetAttribLocation( shader_Program, "v2_position" );
+	glEnableVertexAttribArray( positionAttrib );
+	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+
 	glUniformMatrix4fv( glGetUniformLocation( shader_Program, "m4_mvp" ), 1, GL_FALSE, glm::value_ptr( m4_mvp ) );
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
 
 	glDrawElements( GL_POINTS, 1, GL_UNSIGNED_INT, 0 );
-
-	CheckGLError( "GLPoint::Render - end" );
 }
 void GLPoint::Rotate( float radians ) {
 	m4_rotate = glm::rotate( glm::mat4( ), radians, glm::vec3( 0.f, 0.f, 1.f ) );
