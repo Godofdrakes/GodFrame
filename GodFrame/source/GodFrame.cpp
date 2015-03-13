@@ -3,8 +3,19 @@
 #include <fstream>
 #include <vector>
 
+bool GameEngine::engineHasStarted = false;
+unsigned int GameEngine::width = 0, GameEngine::height = 0;
+float GameEngine::color[4] = { 0.f, 0.f, 0.f, 1.f }; // Color of the window's background
+GLFWwindow * GameEngine::windowPointer = NULL; // Pointer to the window
+std::string GameEngine::name; // Name of the window
+glm::mat4 GameEngine::m4_projection = glm::mat4( 1.f );
+ShaderProgram GameEngine::textured, GameEngine::untextured;
+
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
-	error_glfw = !( glfwInit( ) == GL_TRUE ); // Returns GL_TRUE if all is well.
+
+	assert( engineHasStarted == false && "An instance of GameEngine already exists" );
+
+	bool error_glfw = !( glfwInit( ) == GL_TRUE ); // Returns GL_TRUE if all is well.
 	assert( !error_glfw && "| GameEngine::StartUp - glfw Could not initialize |" );
 
 	glfwSetErrorCallback( error_callback );
@@ -13,7 +24,7 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	Window_New( windowName, windowWidth, windowHeight );
 	m4_projection = glm::ortho( 0.f, (float)windowWidth, 0.f, (float)windowHeight );
 
-	error_glew = !( glewInit( ) == GLEW_OK );
+	GLenum error_glew = !( glewInit( ) == GLEW_OK );
 	assert( !error_glew && "| GameEngine::StartUp - glew Could not initialize |" );
 
 	Shader_Load( "engine/shader/Shader_Vertex_TEXTURE.glsl", textured.vertex, GL_VERTEX_SHADER );
@@ -23,6 +34,8 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	Shader_Load( "engine/shader/Shader_Vertex_NOTEXTURE.glsl", untextured.vertex, GL_VERTEX_SHADER );
 	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", untextured.fragment, GL_FRAGMENT_SHADER );
 	Shader_Link( untextured.handle, untextured.vertex, untextured.fragment, false );;
+
+	engineHasStarted = true;
 }
 void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType ) {
 	std::ifstream ifs( fileName, std::ios::in | std::ios::binary | std::ios::ate );
@@ -46,13 +59,9 @@ void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuin
 	glGetShaderiv( shaderIndex, GL_COMPILE_STATUS, &isCompiled );
 
 	if( isCompiled != GL_TRUE ) {
-#ifdef _DEBUG
 		char buffer[512];
 		glGetShaderInfoLog( shaderIndex, 512, NULL, buffer );
-		assert( buffer );
-#else
-		assert( "| LoadShader - Could not compile shader |" );
-#endif
+		assert( "Could not compile shader" && buffer );
 	}
 }
 void GameEngine::Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured ) {
@@ -103,8 +112,6 @@ void GameEngine::Shader_Link( GLuint & shader_program, GLuint & shader_vertex, G
 }
 
 void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	assert( windowPointer == NULL && "| GameEngine::NewWindow - windowPointer already exists |" );
 	assert( windowName && "| GameEngine::NewWindow - Invalid window name |" );
 	assert( windowWidth > 0 && "| GameEngine::NewWindow - width must be greater than 0 |" );
 	assert( windowHeight > 0 && "| GameEngine::NewWindow - hieght must be greater than 0 |" );
@@ -116,7 +123,7 @@ void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, u
 
 	// Init window
 	windowPointer = glfwCreateWindow( width, height, name.c_str( ), NULL, NULL );
-	assert( windowPointer != NULL && "| GameEngine::NewWindow - GLFW returned NULL pointer for windowPointer |" );
+	assert( windowPointer != NULL && "windowPointer == NULL" );
 
 	// Default the window color to black.
 	color[0] = 0.f; color[1] = 0.f; color[2] = 0.f; color[3] = 1.f;
@@ -126,8 +133,8 @@ void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, u
 }
 
 bool GameEngine::Window_Update( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	assert( windowPointer != NULL && "| GameEngine::Update - windowPointer is NULL |" );
+	assert( engineHasStarted == true && "No instance of GameEngine already exists" );
+	assert( windowPointer != NULL && "windowPointer == NULL" );
 
 	if( glfwWindowShouldClose( windowPointer ) ) { return false; }
 
@@ -142,50 +149,51 @@ bool GameEngine::Window_Update( void ) {
 	return true;
 }
 void GameEngine::Window_Stop( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	assert( windowPointer != NULL && "| GameEngine::EndWindow - windowPointer is NULL |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
+	assert( windowPointer != NULL && "windowPointer == NULL" );
 	return glfwSetWindowShouldClose( windowPointer, GL_FALSE ); // Tell the window it's no longer needed
 }
 void GameEngine::Window_Close( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
-	assert( windowPointer != NULL && "| GameEngine::CloseWindow - windowPointer is NULL |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
+	assert( windowPointer != NULL && "windowPointer == NULL" );
 	glfwDestroyWindow( windowPointer ); // Close the window
 	windowPointer = NULL; // We don't need the pointer any more
 }
 
 const char* GameEngine::Window_GetName( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	return name.c_str( );
 }
 int GameEngine::Window_GetWidth( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	return width;
 }
 int GameEngine::Window_GetHeight( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	return height;
 }
 
 void GameEngine::Engine_Close( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	// Technically I should be deleting shaders.
 	glfwTerminate( ); // Shut down all the things! ALL THE THINGS!
 }
 double GameEngine::Engine_GetTime( void ) {
-	assert( !error_glew && "| GameEngine::StartUp - glfw Could not initialize |" );
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	return glfwGetTime( );
 }
 void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a ) {
 	color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type ) {
+	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	GLPrimitive * object = NULL;
 	switch( type ) {
 	case GLPOINT:
 		object = new GLPoint( untextured.handle, m4_projection );
 		break;
 	case GLLINE:
-		object = new GLPoint( untextured.handle, m4_projection );
+		object = new GLLine( untextured.handle, m4_projection );
 		break;
 	case GLTRI:
 		object = new GLTri( untextured.handle, m4_projection );

@@ -20,38 +20,37 @@ struct ShaderProgram {
 class GameEngine {
 
 private:
-	bool error_glfw; // Did GLFW init properly?
-	GLenum error_glew; // Did GLEW init properly?
-	unsigned int width, height; // Size of the window
-	float color[4]; // Color of the window's background
-	GLFWwindow * windowPointer; // Pointer to the window
-	std::string name; // Name of the window
-	glm::mat4 m4_projection;
-	ShaderProgram textured, untextured;
+	static bool engineHasStarted;
+	static unsigned int width, height; // Size of the window
+	static float color[4]; // Color of the window's background
+	static GLFWwindow * windowPointer; // Pointer to the window
+	static std::string name; // Name of the window
+	static glm::mat4 m4_projection;
+	static ShaderProgram textured, untextured;
 
-	void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
-	void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
+	static void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
+	static void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
 
-	void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
+	static void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
 
 public:
 
 	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );
 
-	bool Window_Update( void ); // Polls input, clears window, and other stuff that needs to be done every tick in the background.
-	void Window_Stop( void );
-	void Window_Close( void );
+	static bool Window_Update( void ); // Polls input, clears window, and other stuff that needs to be done every tick in the background.
+	static void Window_Stop( void );
+	static void Window_Close( void );
 
 	// Getters for window privates
-	const char* Window_GetName( void );
-	int Window_GetWidth( void );
-	int Window_GetHeight( void );
+	static const char* Window_GetName( void );
+	static int Window_GetWidth( void );
+	static int Window_GetHeight( void );
 
-	void Engine_Close( void ); // Shuts down EVERYTHING
-	double Engine_GetTime( void );
-	void Engine_SetBackgroundColor( float r, float g, float b, float a );
+	static void Engine_Close( void ); // Shuts down EVERYTHING
+	static double Engine_GetTime( void );
+	static void Engine_SetBackgroundColor( float r, float g, float b, float a );
 
-	GLPrimitive * MakeObject( GL_PRIMITIVE type );
+	static GLPrimitive * MakeObject( GL_PRIMITIVE type );
 
 };
 

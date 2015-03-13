@@ -9,10 +9,14 @@ int main( void ) {
 
 	GLPrimitive * point = Engine.MakeObject( GLPOINT );
 	GLPrimitive * tri = Engine.MakeObject( GLTRI );
+	GLPrimitive * line = Engine.MakeObject( GLLINE );
 	point->Move( 500, 500 );
 	tri->Move( 200, 200 );
+	//line->Scale( 1024, 1 );
+	//line->Move( 512, 384 );
+	//line->Color( 1.f, 0.f, 0.f, 1.f );
 
-	const double TIME_TICKRATE = ( 1.0 / 60 );
+	const double TIME_TICKRATE = ( 1.0 / 15 );
 	double time_old = Engine.Engine_GetTime( );
 	double time_lag = 0.0;
 
@@ -36,8 +40,10 @@ int main( void ) {
 		// Do drawing stuff here
 		//object->Rotate( foo );
 		point->Render( );
-		tri->Rotate( (float)foo );
+		//tri->Rotate( (float)foo );
 		tri->Render( );
+		//line->Rotate( (float)foo );
+		//line->Render( );
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
 	}

@@ -1,5 +1,4 @@
 #include "GLObjects/GLTri.h"
-#include "OpenGL_Tools.h"
 
 GLTri::GLTri( GLuint shader, glm::mat4 projection ) {
 	shader_Program = shader;
