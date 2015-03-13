@@ -37,7 +37,7 @@ GLTexture::GLTexture( GLuint shader, glm::mat4 projection, const char * filePath
 
 	glGenBuffers( 1, &uvo );
 	glBindBuffer( GL_ARRAY_BUFFER, uvo );
-	glBufferData( GL_ARRAY_BUFFER, sizeof( uv ), uv, GL_STATIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( uv ), uv, GL_DYNAMIC_DRAW );
 
 	/*int width, height;
 	unsigned char * imageData = SOIL_load_image( filePath, &width, &height, 0, SOIL_LOAD_RGBA );
@@ -76,8 +76,21 @@ void GLTexture::Render( void ) {
 	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
 	glBindBuffer( GL_ARRAY_BUFFER, uvo );
-	GLuint textureAttrib = glGetAttribLocation( shader_Program, "v2_Texcoord" );
+
+	float uv[] = {
+		0.f, 0.f,
+		1.f, 0.f,
+		1.f, 1.f,
+		0.f, 1.f,
+	};
+
+	glBindBuffer( GL_ARRAY_BUFFER, uvo );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( uv ), uv, GL_DYNAMIC_DRAW );
+
+	GLuint textureAttrib = glGetAttribLocation( shader_Program, "v2_texcoord" );
 	glEnableVertexAttribArray( textureAttrib );
+
+	CheckGLError( "test" );
 	glVertexAttribPointer( textureAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
 	glBindTexture( GL_TEXTURE_2D, texture );

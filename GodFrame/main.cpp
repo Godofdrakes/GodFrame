@@ -54,7 +54,7 @@ int main( void ) {
 		tri->Render( );
 		quad->Rotate( foo );
 		quad->Render( );
-		//texture->Render( );
+		texture->Render( );
 
 		// if( player pressed ESC ) { Engine.Window_Close( ); }
 	}
@@ -63,7 +63,7 @@ int main( void ) {
 	delete tri;
 	delete line;
 	delete quad;
-	//delete texture;
+	delete texture;
 
 	// Cleanup the windows
 	Engine.Window_Close( );
