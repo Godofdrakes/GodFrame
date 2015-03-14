@@ -170,8 +170,8 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 
 	rapidxml::xml_node<> * common = FindNode( doc.first_node( ), "common" );
 	assert( common != NULL );
-	float scaleW = atof( common->first_attribute( "scaleW" )->value( ) );
-	float scaleH = atof( common->first_attribute( "scaleH" )->value( ) );
+	float scaleW = (float)atof( common->first_attribute( "scaleW" )->value( ) );
+	float scaleH = (float)atof( common->first_attribute( "scaleH" )->value( ) );
 
 	rapidxml::xml_node<> * pages = FindNode( doc.first_node( ), "pages" );
 	assert( pages != NULL );
@@ -210,7 +210,7 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 		const char * puncuationTypeA = "\"\'";
 		const char * puncuationTypeB = ",";
 
-		bool charIsTypeA = false;
+		bool charIsTypeA = false; // Puncuation that should be placed slightly HIGHER than normal characters
 		infLoopCatch = 0;
 		while( puncuationTypeA[infLoopCatch] != STRING_TERMINATE ) {
 			if( putWordsHere[i] == puncuationTypeA[infLoopCatch] ) { charIsTypeA = true; }
@@ -218,7 +218,7 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 			assert( infLoopCatch < 100 && "infLoopCatch" );
 		}
 
-		bool charIsTypeB = false;
+		bool charIsTypeB = false; // Puncuation that should be placed slightly LOWER than normal characters
 		infLoopCatch = 0;
 		while( puncuationTypeB[infLoopCatch] != STRING_TERMINATE ) {
 			if( putWordsHere[i] == puncuationTypeB[infLoopCatch] ) { charIsTypeB = true; }
@@ -226,15 +226,15 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 			assert( infLoopCatch < 100 && "infLoopCatch" );
 		}
 
-		float x = atof( charNode->first_attribute( "x" )->value( ) );
-		float y = atof( charNode->first_attribute( "y" )->value( ) );
-		float width = atof( charNode->first_attribute( "width" )->value( ) );
-		float height = atof( charNode->first_attribute( "height" )->value( ) );
-		float xoffset = atof( charNode->first_attribute( "xoffset" )->value( ) );
-		float yoffset = atof( charNode->first_attribute( "yoffset" )->value( ) );
+		float x = (float)atof( charNode->first_attribute( "x" )->value( ) );
+		float y = (float)atof( charNode->first_attribute( "y" )->value( ) );
+		float width = (float)atof( charNode->first_attribute( "width" )->value( ) );
+		float height = (float)atof( charNode->first_attribute( "height" )->value( ) );
+		float xoffset = (float)atof( charNode->first_attribute( "xoffset" )->value( ) );
+		float yoffset = (float)atof( charNode->first_attribute( "yoffset" )->value( ) );
 		int page = atoi( charNode->first_attribute( "page" )->value( ) );
 
-		if( charIsTypeA ) {
+		if( charIsTypeA ) { 
 			Move( move_x + totalOffset, move_y + ( yoffset * 2.f * fontScale ) );
 			Scale( ( width * 0.75f ) * fontScale, (height) * fontScale );
 			totalOffset += ( width * 0.75f ) * fontScale;
@@ -299,5 +299,5 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 	}
 }
 void BMFont::FontScale( float pixHeight ) {
-	fontScale = pixHeight / -atof( doc.first_node("font")->first_node("info")->first_attribute("size")->value() );
+	fontScale = pixHeight / -(float)atof( doc.first_node( "font" )->first_node( "info" )->first_attribute( "size" )->value( ) );
 }
