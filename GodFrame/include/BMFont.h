@@ -10,6 +10,7 @@
 //Needs font scaling, coloring
 
 class BMFont {
+	friend class GameEngine;
 
 private:
 	int numPages;

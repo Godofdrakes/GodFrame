@@ -9,6 +9,7 @@
 */
 
 // C++ standard
+#include <sstream>
 #include <string>
 
 // Base dependencies
@@ -51,7 +52,11 @@ private:
 
 	static void Window_New( const char* windowName, unsigned int windowWidth, unsigned int windowHeight );
 
+	static void ShowFPS( void );
+	static double delta_old, delta_new; // For tracking FPS
+
 public:
+	static bool drawFPS;
 	static BMFont fontManager;
 
 	GameEngine( const char* windowName, unsigned int windowWidth = 1024, unsigned int windowHeight = 768 );

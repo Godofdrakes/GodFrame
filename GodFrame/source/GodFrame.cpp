@@ -13,6 +13,8 @@ ShaderProgram GameEngine::textured, GameEngine::untextured;
 BMFont GameEngine::fontManager;
 Input_Mouse GameEngine::mouseInput;
 Input_Keyboard GameEngine::keyboardInput;
+bool GameEngine::drawFPS;
+double GameEngine::delta_new, GameEngine::delta_old;
 
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
 
@@ -38,6 +40,9 @@ GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsign
 	Shader_Load( "engine/shader/Shader_Fragment_NOTEXTURE.glsl", untextured.fragment, GL_FRAGMENT_SHADER );
 	Shader_Link( untextured.handle, untextured.vertex, untextured.fragment, false );
 
+	drawFPS = false;
+	delta_new = glfwGetTime( );
+	delta_old = 0.0;
 	engineHasStarted = true;
 }
 void GameEngine::Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType ) {
@@ -135,6 +140,24 @@ void GameEngine::Window_New( const char* windowName, unsigned int windowWidth, u
 	glfwSwapInterval( 1 );
 }
 
+void GameEngine::ShowFPS( void ) {
+	if( !drawFPS ) { return; }
+	if( !fontManager.numPages ) { return; }
+
+	delta_old = delta_new;
+	delta_new = glfwGetTime( );
+	double delta = delta_new - delta_old;
+
+	float fontsize = fontManager.fontScale;
+	fontManager.FontScale( 25.f );
+
+	std::stringstream temp;
+	temp << "FPS: " << (int)( 1.f / delta );
+	fontManager.DrawString( temp.str( ).c_str( ), 0, 0 );
+
+	fontManager.fontScale = fontsize;
+}
+
 bool GameEngine::Window_Update( void ) {
 	assert( engineHasStarted == true && "No instance of GameEngine already exists" );
 	assert( windowPointer != NULL && "windowPointer == NULL" );
@@ -148,6 +171,8 @@ bool GameEngine::Window_Update( void ) {
 	// Stuff for the start of the next tick.
 	glClearColor( color[0], color[1], color[2], color[3] );
 	glClear( GL_COLOR_BUFFER_BIT );
+
+	ShowFPS( );
 
 	return true;
 }
@@ -179,6 +204,7 @@ int GameEngine::Window_GetHeight( void ) {
 void GameEngine::Engine_Close( void ) {
 	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	// Technically I should be deleting shaders.
+	fontManager.UnloadFont( );
 	glfwTerminate( ); // Shut down all the things! ALL THE THINGS!
 }
 double GameEngine::Engine_GetTime( void ) {

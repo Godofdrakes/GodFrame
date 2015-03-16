@@ -25,7 +25,6 @@ public:
 	void DeInit( void );
 
 	void GetMousePos( GLFWwindow * window, double & mouse_x, double & mouse_y ); // Changes the referenced variables to the mouse cursor's current X/Y position in the window
-	void GetMouseChange( GLFWwindow * window, double & mouse_x, double & mouse_y ); // Changes the referenced variables to the mouse cursor's change in X/Y position in the window
 	bool GetMouseButton( GLFWwindow * window, int mouse_button );
 
 	//void ShowMouse( GLFWwindow * window, bool show ); // HIdes/Shows the mouse cursor.

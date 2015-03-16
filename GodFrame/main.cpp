@@ -5,15 +5,16 @@
 
 int main( void ) {
 
-	GameEngine Engine( "GodFrame" ); // Inits the Engine
+	GameEngine Engine( "GodFrame", 512, 512 ); // Inits the Engine
 
 	GLPrimitive * texture = Engine.MakeObject( GLTEXTURE, "engine/image/test.png" );
-	glm::vec2 pos = glm::vec2( 64, 500 );
+	glm::vec2 pos = glm::vec2( 0, 0 );
 	texture->Scale( 64, 64 );
 	texture->Move( pos.x, pos.y );
 	float speed = 3.f;
 
 	Engine.LoadFont( "engine/font/InputMono.fnt" );
+	Engine.drawFPS = true;
 
 	const double TIME_TICKRATE = ( 1.0 / 30 );
 	double time_old = Engine.Engine_GetTime( );
