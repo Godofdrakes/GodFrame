@@ -7,28 +7,15 @@ int main( void ) {
 
 	GameEngine Engine( "GodFrame" ); // Inits the Engine
 
-	GLPrimitive * point = Engine.MakeObject( GLPOINT );
-	point->Move( 10, 10 );
-
-	GLPrimitive * tri = Engine.MakeObject( GLTRI );
-	tri->Move( 200, 200 );
-
-	GLPrimitive * line = Engine.MakeObject( GLLINE );
-	line->Scale( 1024, 768 );
-	line->Move( 512, 384 );
-	line->Color( 1.f, 0.f, 0.f, 1.f );
-
-	GLPrimitive * quad = Engine.MakeObject( GLQUAD );
-	quad->Scale( 32, 32 );
-	quad->Move( 64, 64 );
-
 	GLPrimitive * texture = Engine.MakeObject( GLTEXTURE, "engine/image/test.png" );
-	texture->Scale( 32, 32 );
-	texture->Move( 64, 500 );
+	glm::vec2 pos = glm::vec2( 64, 500 );
+	texture->Scale( 64, 64 );
+	texture->Move( pos.x, pos.y );
+	float speed = 3.f;
 
 	Engine.LoadFont( "engine/font/InputMono.fnt" );
 
-	const double TIME_TICKRATE = ( 1.0 / 5 );
+	const double TIME_TICKRATE = ( 1.0 / 30 );
 	double time_old = Engine.Engine_GetTime( );
 	double time_lag = 0.0;
 
@@ -47,38 +34,31 @@ int main( void ) {
 		while( time_lag >= TIME_TICKRATE ) {
 			// Do thinking stuff here
 
-			++foo;
-
-			Engine.fontManager.FontScale( foo );
+			if( Engine.Input_KeyboardButton( GLFW_KEY_W ) ) {
+				pos.y += speed;
+			}
+			if( Engine.Input_KeyboardButton( GLFW_KEY_S ) ) {
+				pos.y -= speed;
+			}
+			if( Engine.Input_KeyboardButton( GLFW_KEY_A ) ) {
+				pos.x -= speed;
+			}
+			if( Engine.Input_KeyboardButton( GLFW_KEY_D ) ) {
+				pos.x += speed;
+			}
 
 			// At the end
 			time_lag -= TIME_TICKRATE;
 		}
 
 		// Do drawing stuff here
-		line->Rotate( foo );
-		line->Render( );
 
-		point->Rotate( foo );
-		point->Render( );
-
-		tri->Rotate( foo );
-		tri->Render( );
-
-		quad->Render( );
-
+		texture->Move( pos.x, pos.y );
 		texture->Render( );
 
-		Engine.fontManager.DrawString( "\"{[Hello, world!]}\"", mouse_x, mouse_y );
-		//Needs font scaling, coloring
-
-		// IF player pressed esc THEN Engine.Window_Close( ); }
+		if( Engine.Input_KeyboardButton( GLFW_KEY_ESCAPE ) ) { Engine.Window_Stop( ); }
 	}
 
-	delete point;
-	delete tri;
-	delete line;
-	delete quad;
 	delete texture;
 
 	// Cleanup the windows

@@ -11,6 +11,8 @@ std::string GameEngine::name; // Name of the window
 glm::mat4 GameEngine::m4_projection = glm::mat4( 1.f );
 ShaderProgram GameEngine::textured, GameEngine::untextured;
 BMFont GameEngine::fontManager;
+Input_Mouse GameEngine::mouseInput;
+Input_Keyboard GameEngine::keyboardInput;
 
 GameEngine::GameEngine( const char* windowName, unsigned int windowWidth, unsigned int windowHeight ) {
 
@@ -152,7 +154,7 @@ bool GameEngine::Window_Update( void ) {
 void GameEngine::Window_Stop( void ) {
 	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	assert( windowPointer != NULL && "windowPointer == NULL" );
-	return glfwSetWindowShouldClose( windowPointer, GL_FALSE ); // Tell the window it's no longer needed
+	return glfwSetWindowShouldClose( windowPointer, GL_TRUE ); // Tell the window it's no longer needed
 }
 void GameEngine::Window_Close( void ) {
 	assert( engineHasStarted == true && "No instance of GameEngine exists" );
@@ -188,8 +190,14 @@ void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a )
 }
 
 void GameEngine::Input_MousePos( double & mouse_x, double & mouse_y ) {
-	glfwGetCursorPos( windowPointer, &mouse_x, &mouse_y );
+	mouseInput.GetMousePos( windowPointer, mouse_x, mouse_y );
 	mouse_y = height - mouse_y;
+}
+bool GameEngine::Input_MouseButton( int button ) {
+	return mouseInput.GetMouseButton( windowPointer, button );
+}
+bool GameEngine::Input_KeyboardButton( int button ) {
+	return keyboardInput.GetKeyboardButton( windowPointer, button );
 }
 
 GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type, const char * optional_textureFilePath ) {

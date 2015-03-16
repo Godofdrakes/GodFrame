@@ -87,6 +87,8 @@
     <ClCompile Include="source\GLObjects\GLTexture.cpp" />
     <ClCompile Include="source\GLObjects\GLTri.cpp" />
     <ClCompile Include="source\GodFrame.cpp" />
+    <ClCompile Include="source\Input\Input_Controller.cpp" />
+    <ClCompile Include="source\Input\Input_KeyMouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BMFont.h" />
@@ -99,7 +101,10 @@
     <ClInclude Include="include\GLObjects\GLTexture.h" />
     <ClInclude Include="include\GLObjects\GLTri.h" />
     <ClInclude Include="include\GodFrame.h" />
+    <ClInclude Include="include\Input\Input_Controller.h" />
+    <ClInclude Include="include\Input\Input_KeyMouse.h" />
     <ClInclude Include="include\OpenGL_Tools.h" />
+    <ClInclude Include="include\QOL_Macros.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="engine\font\InputMono.fnt" />

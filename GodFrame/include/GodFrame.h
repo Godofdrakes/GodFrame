@@ -1,11 +1,26 @@
 #ifndef _GODFRAME_H_
 #define _GODFRAME_H_
 
+/* TODO/IDEAS:
+
+	DrawFunction that takes in a GLPrimitive?
+		Removes the need to store shaders/projection/mvp itself.
+
+*/
+
+// C++ standard
 #include <string>
+
+// Base dependencies
 #include "OpenGL_Tools.h" // GLEW and GLFW
 #include "GLM_Tools.h" // GLM
-#include "BMFont.h"
+
+// Rendering
 #include "GLObjects.h"
+#include "BMFont.h"
+
+// Input
+#include "Input\Input_KeyMouse.h"
 
 // Function for GLFW error handling. Not recomended for actual use.
 static void error_callback( int error, const char* description ) { assert( 0 && error && description ); }
@@ -28,6 +43,8 @@ private:
 	static std::string name; // Name of the window
 	static glm::mat4 m4_projection;
 	static ShaderProgram textured, untextured;
+	static Input_Mouse mouseInput;
+	static Input_Keyboard keyboardInput;
 
 	static void Shader_Load( const char * fileName, GLuint & shaderIndex, GLuint shaderType );
 	static void Shader_Link( GLuint & shader_program, GLuint & shader_vertex, GLuint & shader_fragment, bool textured );
@@ -53,6 +70,8 @@ public:
 	static void Engine_SetBackgroundColor( float r, float g, float b, float a );
 
 	static void Input_MousePos( double & mouse_x, double & mouse_y );
+	static bool Input_MouseButton( int button );
+	static bool Input_KeyboardButton( int button );
 
 	static void LoadFont( const char * fontFilePath );
 

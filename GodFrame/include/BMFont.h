@@ -7,6 +7,8 @@
 #include <GLM_Tools.h> // Math
 #include <SOIL\SOIL.h> // Image loading
 
+//Needs font scaling, coloring
+
 class BMFont {
 
 private:

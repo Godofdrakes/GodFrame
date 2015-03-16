@@ -34,6 +34,12 @@
     <Filter Include="Header Files\GameEngine\Tools">
       <UniqueIdentifier>{10763d54-b739-4ffa-8067-07c2fbb03c13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameEngine\Input">
+      <UniqueIdentifier>{58a9a1f9-5401-412b-9c68-2f62c62d07c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine\Input">
+      <UniqueIdentifier>{54c45965-b8f3-4224-9349-def4ac315b62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="source\BMFont.cpp">
       <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\Input_Controller.cpp">
+      <Filter>Source Files\GameEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\Input_KeyMouse.cpp">
+      <Filter>Source Files\GameEngine\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="include\GLM_Tools.h">
       <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\QOL_Macros.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input\Input_Controller.h">
+      <Filter>Header Files\GameEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input\Input_KeyMouse.h">
+      <Filter>Header Files\GameEngine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
