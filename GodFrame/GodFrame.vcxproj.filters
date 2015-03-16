@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\GameEngine">
+      <UniqueIdentifier>{99fbb41c-3fc3-4579-8a34-4bb091a46560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine\GLObjects">
+      <UniqueIdentifier>{1e08b965-a0b7-4c4c-8117-9f98209ce49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine\GLObjects\GLPrimitive Derived">
+      <UniqueIdentifier>{f67e0c32-5179-4679-928b-360b85e53478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine">
+      <UniqueIdentifier>{585baccf-2251-4332-a1c2-94c8003ec75a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine\GLObjects">
+      <UniqueIdentifier>{bffa9605-4783-4516-8a15-1219ba369d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine\GLObjects\GLPrimitive Derived">
+      <UniqueIdentifier>{3ea70d00-8ab6-4d82-acf4-cdd77d24ec49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine\Tools">
+      <UniqueIdentifier>{10763d54-b739-4ffa-8067-07c2fbb03c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine\Input">
+      <UniqueIdentifier>{58a9a1f9-5401-412b-9c68-2f62c62d07c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine\Input">
+      <UniqueIdentifier>{54c45965-b8f3-4224-9349-def4ac315b62}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLObjects\GLLine.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLObjects\GLPoint.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLObjects\GLQuad.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLObjects\GLTri.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GodFrame.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLObjects\GLTexture.cpp">
+      <Filter>Source Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BMFont.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\Input_Controller.cpp">
+      <Filter>Source Files\GameEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\Input_KeyMouse.cpp">
+      <Filter>Source Files\GameEngine\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\GLObjects.h">
+      <Filter>Header Files\GameEngine\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLPrimitive.h">
+      <Filter>Header Files\GameEngine\GLObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLLine.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLPoint.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLQuad.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLTri.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GodFrame.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLObjects\GLTexture.h">
+      <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BMFont.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGL_Tools.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLM_Tools.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\QOL_Macros.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input\Input_Controller.h">
+      <Filter>Header Files\GameEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input\Input_KeyMouse.h">
+      <Filter>Header Files\GameEngine\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="engine\shader\Shader_Fragment_NOTEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Fragment_TEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Vertex_NOTEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\shader\Shader_Vertex_TEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\font\InputMono.fnt">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
