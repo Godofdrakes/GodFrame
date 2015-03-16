@@ -186,6 +186,12 @@ double GameEngine::Engine_GetTime( void ) {
 void GameEngine::Engine_SetBackgroundColor( float r, float g, float b, float a ) {
 	color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
+
+void GameEngine::Input_MousePos( double & mouse_x, double & mouse_y ) {
+	glfwGetCursorPos( windowPointer, &mouse_x, &mouse_y );
+	mouse_y = height - mouse_y;
+}
+
 GLPrimitive * GameEngine::MakeObject( GL_PRIMITIVE type, const char * optional_textureFilePath ) {
 	assert( engineHasStarted == true && "No instance of GameEngine exists" );
 	GLPrimitive * object = NULL;

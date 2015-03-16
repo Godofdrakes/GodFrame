@@ -77,6 +77,7 @@ bool BMFont::LoadFont( const char * filePath, GLuint shader, glm::mat4 proj ) {
 
 	shader_Program = shader;
 	m4_projection = proj;
+	fontScale = 1.f;
 
 	assert( filePath );
 
@@ -159,6 +160,9 @@ void BMFont::UnloadFont( void ) {
 }
 
 void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y ) {
+
+	const char STRING_TERMINATE = ""[0]; // Easy way to know when we've drawn all the characters int he string, just loop until we reach the string's termination char.
+
 	assert( numPages > 0 && putWordsHere );
 
 	rapidxml::xml_node<> * info = FindNode( doc.first_node( ), "info" );
@@ -166,8 +170,8 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 
 	rapidxml::xml_node<> * common = FindNode( doc.first_node( ), "common" );
 	assert( common != NULL );
-	float scaleW = atof( common->first_attribute( "scaleW" )->value( ) );
-	float scaleH = atof( common->first_attribute( "scaleH" )->value( ) );
+	float scaleW = (float)atof( common->first_attribute( "scaleW" )->value( ) );
+	float scaleH = (float)atof( common->first_attribute( "scaleH" )->value( ) );
 
 	rapidxml::xml_node<> * pages = FindNode( doc.first_node( ), "pages" );
 	assert( pages != NULL );
@@ -176,8 +180,8 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 	assert( chars != NULL );
 
 	int i = 0;
-	float offset = 0;
-	while( putWordsHere[i] != ""[0] ) {
+	float totalOffset = 0;
+	while( putWordsHere[i] != STRING_TERMINATE ) {
 
 		unsigned int infLoopCatch = 0;
 
@@ -203,17 +207,48 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 			assert( infLoopCatch < (unsigned int)atoi( chars->first_attribute( )->value( ) ) );
 		}
 
-		float x = atof( charNode->first_attribute( "x" )->value( ) );
-		float y = atof( charNode->first_attribute( "y" )->value( ) );
-		float width = atof( charNode->first_attribute( "width" )->value( ) );
-		float height = atof( charNode->first_attribute( "height" )->value( ) );
-		float xoffset = atof( charNode->first_attribute( "xoffset" )->value( ) );
-		float yoffset = atof( charNode->first_attribute( "yoffset" )->value( ) );
+		const char * puncuationTypeA = "\"\'";
+		const char * puncuationTypeB = ",";
+
+		bool charIsTypeA = false; // Puncuation that should be placed slightly HIGHER than normal characters
+		infLoopCatch = 0;
+		while( puncuationTypeA[infLoopCatch] != STRING_TERMINATE ) {
+			if( putWordsHere[i] == puncuationTypeA[infLoopCatch] ) { charIsTypeA = true; }
+			++infLoopCatch;
+			assert( infLoopCatch < 100 && "infLoopCatch" );
+		}
+
+		bool charIsTypeB = false; // Puncuation that should be placed slightly LOWER than normal characters
+		infLoopCatch = 0;
+		while( puncuationTypeB[infLoopCatch] != STRING_TERMINATE ) {
+			if( putWordsHere[i] == puncuationTypeB[infLoopCatch] ) { charIsTypeB = true; }
+			++infLoopCatch;
+			assert( infLoopCatch < 100 && "infLoopCatch" );
+		}
+
+		float x = (float)atof( charNode->first_attribute( "x" )->value( ) );
+		float y = (float)atof( charNode->first_attribute( "y" )->value( ) );
+		float width = (float)atof( charNode->first_attribute( "width" )->value( ) );
+		float height = (float)atof( charNode->first_attribute( "height" )->value( ) );
+		float xoffset = (float)atof( charNode->first_attribute( "xoffset" )->value( ) );
+		float yoffset = (float)atof( charNode->first_attribute( "yoffset" )->value( ) );
 		int page = atoi( charNode->first_attribute( "page" )->value( ) );
 
-		Move( move_x + offset, move_y );
-		Scale( width, height );
-		offset += width;
+		if( charIsTypeA ) { 
+			Move( move_x + totalOffset, move_y + ( yoffset * 2.f * fontScale ) );
+			Scale( ( width * 0.75f ) * fontScale, (height) * fontScale );
+			totalOffset += ( width * 0.75f ) * fontScale;
+		}
+		else if( charIsTypeB ) {
+			Move( move_x + totalOffset, move_y - ( yoffset * 0.15f * fontScale ) );
+			Scale( ( width * 0.75f ) * fontScale, ( height * 0.75f ) * fontScale );
+			totalOffset += ( width * 0.75f ) * fontScale;
+		}
+		else {
+			Move( move_x + totalOffset, move_y );
+			Scale( (width) * fontScale, (height) * fontScale );
+			totalOffset += (width)* fontScale;
+		}
 
 		assert( glIsProgram( shader_Program ) == GL_TRUE );
 
@@ -262,4 +297,7 @@ void BMFont::DrawString( const char * putWordsHere, float move_x, float move_y )
 		++i;
 		assert( i < 512 );
 	}
+}
+void BMFont::FontScale( float pixHeight ) {
+	fontScale = pixHeight / -(float)atof( doc.first_node( "font" )->first_node( "info" )->first_attribute( "size" )->value( ) );
 }

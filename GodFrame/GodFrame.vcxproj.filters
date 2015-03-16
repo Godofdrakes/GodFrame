@@ -31,6 +31,9 @@
     <Filter Include="Header Files\GameEngine\GLObjects\GLPrimitive Derived">
       <UniqueIdentifier>{3ea70d00-8ab6-4d82-acf4-cdd77d24ec49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameEngine\Tools">
+      <UniqueIdentifier>{10763d54-b739-4ffa-8067-07c2fbb03c13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,13 +80,7 @@
     <ClInclude Include="include\GLObjects\GLTri.h">
       <Filter>Header Files\GameEngine\GLObjects\GLPrimitive Derived</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLM_Tools.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="include\GodFrame.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\OpenGL_Tools.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
     <ClInclude Include="include\GLObjects\GLTexture.h">
@@ -91,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="include\BMFont.h">
       <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGL_Tools.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLM_Tools.h">
+      <Filter>Header Files\GameEngine\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +107,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="engine\shader\Shader_Vertex_TEXTURE.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="engine\font\InputMono.fnt">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

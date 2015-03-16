@@ -3,16 +3,6 @@
 
 #include "GodFrame.h"
 
-//void PrintXML( const char * filePath ) {
-//
-//	rapidxml::file<> xmlFile( filePath ); // Default template is char
-//	rapidxml::xml_document<> doc;
-//	doc.parse<0>( xmlFile.data( ) );
-//
-//	std::cout << doc.first_node( )->name( ) << std::endl;
-//	PrintChildNodes( doc.first_node( ) );
-//}
-
 int main( void ) {
 
 	GameEngine Engine( "GodFrame" ); // Inits the Engine
@@ -34,7 +24,7 @@ int main( void ) {
 
 	GLPrimitive * texture = Engine.MakeObject( GLTEXTURE, "engine/image/test.png" );
 	texture->Scale( 32, 32 );
-	texture->Move( 64, 64 );
+	texture->Move( 64, 500 );
 
 	Engine.LoadFont( "engine/font/InputMono.fnt" );
 
@@ -51,10 +41,15 @@ int main( void ) {
 		time_old = time_now;
 		time_lag += time_passed;
 
+		double mouse_x, mouse_y;
+		Engine.Input_MousePos( mouse_x, mouse_y );
+
 		while( time_lag >= TIME_TICKRATE ) {
 			// Do thinking stuff here
 
 			++foo;
+
+			Engine.fontManager.FontScale( foo );
 
 			// At the end
 			time_lag -= TIME_TICKRATE;
@@ -70,16 +65,14 @@ int main( void ) {
 		tri->Rotate( foo );
 		tri->Render( );
 
-		quad->Rotate( foo );
 		quad->Render( );
 
 		texture->Render( );
 
-		Engine.fontManager.DrawString( "Ha:Ha:!!|", 64, 500 ); /*
-																Needs font scaling, coloring
-															   */
+		Engine.fontManager.DrawString( "\"{[Hello, world!]}\"", mouse_x, mouse_y );
+		//Needs font scaling, coloring
 
-		// if( player pressed ESC ) { Engine.Window_Close( ); }
+		// IF player pressed esc THEN Engine.Window_Close( ); }
 	}
 
 	delete point;
