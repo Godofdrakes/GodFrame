@@ -2,16 +2,16 @@
 #define _BMFONT_H_
 
 #include <RapidXML/rapidxml.hpp> // XML reading
-#include <RapidXML/rapidxml_utils.hpp>
-#include "OpenGL_Tools.h"
-#include <GLM_Tools.h>
-#include <SOIL\SOIL.h>
+#include <RapidXML/rapidxml_utils.hpp> // Easier XML reading
+#include "OpenGL_Tools.h" // OpenGL Rendering
+#include <GLM_Tools.h> // Math
+#include <SOIL\SOIL.h> // Image loading
 
 class BMFont {
 
 private:
 	int numPages;
-	float fontScale; // unfinished
+	float fontScale;
 
 	glm::vec4 v4_color;
 	glm::mat4 m4_scale, m4_move, m4_mvp, m4_projection;

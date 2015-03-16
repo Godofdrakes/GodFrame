@@ -3,16 +3,6 @@
 
 #include "GodFrame.h"
 
-//void PrintXML( const char * filePath ) {
-//
-//	rapidxml::file<> xmlFile( filePath ); // Default template is char
-//	rapidxml::xml_document<> doc;
-//	doc.parse<0>( xmlFile.data( ) );
-//
-//	std::cout << doc.first_node( )->name( ) << std::endl;
-//	PrintChildNodes( doc.first_node( ) );
-//}
-
 int main( void ) {
 
 	GameEngine Engine( "GodFrame" ); // Inits the Engine
