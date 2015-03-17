@@ -9,10 +9,10 @@ GLQuad::GLQuad( GLuint shader, glm::mat4 projection ) {
 	glBindVertexArray( vao );
 
 	float vertices[] = {
-		-0.5, 0.5,
-		0.5, 0.5,
-		0.5, -0.5,
-		-0.5, -0.5,
+		0.f, 1.f,
+		1.f, 1.f,
+		1.f, 0.f,
+		0.f, 0.f,
 	};
 
 	glGenBuffers( 1, &vbo );

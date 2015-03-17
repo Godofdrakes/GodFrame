@@ -13,6 +13,10 @@ int main( void ) {
 	texture->Move( pos.x, pos.y );
 	float speed = 3.f;
 
+	GLPrimitive * line = Engine.MakeObject( GLLINE );
+	line->Scale( 64, 64 );
+	line->Move( pos.x, pos.y );
+
 	Engine.LoadFont( "engine/font/InputMono.fnt" );
 	Engine.drawFPS = true;
 
@@ -56,6 +60,14 @@ int main( void ) {
 
 		texture->Move( pos.x, pos.y );
 		texture->Render( );
+
+		glm::vec2 lineDirection = glm::vec2( mouse_x, mouse_y ) - pos;
+		double lineRotation = atan2( lineDirection.y, lineDirection.x );
+		double lineLength = abs( mouse_x - pos.x ) + abs( mouse_y - pos.y );
+		line->Scale( 64, 256 );
+		line->Rotate( lineRotation );
+		line->Move( pos.x, pos.y );
+		line->Render( );
 
 		if( Engine.Input_KeyboardButton( GLFW_KEY_ESCAPE ) ) { Engine.Window_Stop( ); }
 	}

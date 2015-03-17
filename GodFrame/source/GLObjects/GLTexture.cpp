@@ -9,10 +9,10 @@ GLTexture::GLTexture( GLuint shader, glm::mat4 projection, const char * filePath
 	glBindVertexArray( vao );
 
 	float vertices[] = {
-		-0.5, 0.5,
-		0.5, 0.5,
-		0.5, -0.5,
-		-0.5, -0.5,
+		0.f, 1.f,
+		1.f, 1.f,
+		1.f, 0.f,
+		0.f, 0.f,
 	};
 
 	glGenBuffers( 1, &vbo );

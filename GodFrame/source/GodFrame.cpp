@@ -165,14 +165,13 @@ bool GameEngine::Window_Update( void ) {
 	if( glfwWindowShouldClose( windowPointer ) ) { return false; }
 
 	// Stuff for the end of this tick.
+	ShowFPS( );
 	glfwSwapBuffers( windowPointer );
 	glfwPollEvents( );
 
 	// Stuff for the start of the next tick.
 	glClearColor( color[0], color[1], color[2], color[3] );
 	glClear( GL_COLOR_BUFFER_BIT );
-
-	ShowFPS( );
 
 	return true;
 }
