@@ -51,12 +51,12 @@ void GLPoint::Render( void ) {
 
 	CheckGLError( "GLPoint::Render - end" );
 }
-void GLPoint::Rotate( float radians ) {
-	m4_rotate = glm::rotate( glm::mat4( ), radians, glm::vec3( 0.f, 0.f, 1.f ) );
+void GLPoint::Rotate( float radians ) { // You can't rotate a point.
+	//m4_rotate = glm::rotate( glm::mat4( ), radians, glm::vec3( 0.f, 0.f, 1.f ) );
 }
-void GLPoint::Scale( float scale_x, float scale_y ) {
-	glm::vec3 v3_scale = glm::vec3( scale_x, scale_y, 1.f );
-	m4_scale = glm::scale( glm::mat4( ), v3_scale );
+void GLPoint::Scale( float scale_x, float scale_y ) { // You can't scale a point
+	//glm::vec3 v3_scale = glm::vec3( scale_x, scale_y, 1.f );
+	//m4_scale = glm::scale( glm::mat4( ), v3_scale );
 }
 void GLPoint::Move( float move_X, float move_y ) {
 	glm::vec3 v3_position = glm::vec3( move_X, move_y, 1.f );

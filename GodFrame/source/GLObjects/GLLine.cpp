@@ -41,7 +41,7 @@ void GLLine::Render( void ) {
 	glEnableVertexAttribArray( positionAttrib );
 	glVertexAttribPointer( positionAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
-	m4_mvp = m4_projection * m4_move * m4_scale * m4_rotate;
+	m4_mvp = m4_projection * m4_move * m4_rotate * m4_scale;
 	glUniformMatrix4fv( glGetUniformLocation( shader_Program, "m4_mvp" ), 1, GL_FALSE, glm::value_ptr( m4_mvp ) );
 
 	glUniform4fv( glGetUniformLocation( shader_Program, "v4_color" ), 1, glm::value_ptr( v4_color ) );
