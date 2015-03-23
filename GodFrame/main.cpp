@@ -61,28 +61,29 @@ int main( void ) {
 				pos.x += speed;
 			}
 
+			texture->Move( pos.x, pos.y );
+
+			glm::vec2 lineEnd = glm::vec2( mouse_x, mouse_y ) - pos;
+			double lineRotation = atan2( lineEnd.y, lineEnd.x );
+			float line_x = mouse_x - pos.x;
+			float line_y = mouse_y - pos.y;
+			float lineLength = sqrt( ( line_x * line_x ) + ( line_y * line_y ) );
+
+			line->Scale( lineLength, lineLength );
+			line->Rotate( lineRotation );
+			line->Move( pos.x, pos.y );
+
+			marker_x->Move( 0, mouse_y );
+			marker_y->Move( mouse_x, 0 );
+
 			// At the end
 			time_lag -= TIME_TICKRATE;
 		}
 
 		// Do drawing stuff here
 
-		texture->Move( pos.x, pos.y );
 		texture->Render( );
-
-		glm::vec2 lineEnd = glm::vec2( mouse_x, mouse_y ) - pos;
-		double lineRotation = atan2( lineEnd.y, lineEnd.x );
-		float line_x = mouse_x - pos.x;
-		float line_y = mouse_y - pos.y;
-		float lineLength = sqrt( ( line_x * line_x ) + ( line_y * line_y ) );
-
-		line->Scale( lineLength, lineLength );
-		line->Rotate( lineRotation );
-		line->Move( pos.x, pos.y );
 		line->Render( );
-
-		marker_x->Move( 0, mouse_y );
-		marker_y->Move( mouse_x, 0 );
 		marker_x->Render( );
 		marker_y->Render( );
 
