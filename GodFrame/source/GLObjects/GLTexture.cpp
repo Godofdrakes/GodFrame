@@ -41,7 +41,7 @@ GLTexture::GLTexture( GLuint shader, glm::mat4 projection, const char * filePath
 	glBindBuffer( GL_ARRAY_BUFFER, uvo );
 	glBufferData( GL_ARRAY_BUFFER, sizeof( uvData ), uvData, GL_DYNAMIC_DRAW );
 
-	texture = SOIL_load_OGL_texture( filePath, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT );
+	texture = SOIL_load_OGL_texture( filePath, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT );
 
 	Scale( 64.f, 64.f );
 	Color( 1.f, 1.f, 1.f, 1.f );
