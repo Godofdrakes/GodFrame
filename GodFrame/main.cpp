@@ -20,6 +20,7 @@ int main( void ) {
 	GLPrimitive * marker_x = Engine.MakeObject( GLLINE );
 	marker_x->Color( 1.f, 0.f, 0.f, 1.f );
 	marker_x->Scale( 512, 512 );
+	marker_x->Rotate( atan2( 0.f, 1.f ) );
 	GLPrimitive * marker_y = Engine.MakeObject( GLLINE );
 	marker_y->Color( 1.f, 0.f, 0.f, 1.f );
 	marker_y->Scale( 512, 512 );
